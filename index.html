@@ -637,8 +637,7 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Ordre</th>
-                        <th>Forme</th>
+                        <th>Ordre</th> <th>Forme</th>
                         <th>Coordonnées</th>
                         <th>Titre</th>
                         <th>Lien</th>
@@ -1094,6 +1093,8 @@
             return -1;
         }
     
+        // REMPLACEZ votre fonction updateAreasTable actuelle par celle-ci
+
         function updateAreasTable() {
             let tbody = document.querySelector("#areasTable tbody");
             tbody.innerHTML = "";
@@ -1112,12 +1113,13 @@
                         coordsText = `x:${Math.round(area.x)}, y:${Math.round(area.y)}, w:${Math.round(area.width)}, h:${Math.round(area.height)}`;
                         break;
                 }
-    
+
+                // Le bloc <td> pour l'ordre est maintenant inclus ici
                 row.innerHTML = `
                     <td>${index + 1}</td>
                     <td>
-                        <button onclick="moveAreaOrder(${index}, -1)" title="Monter" style="padding:4px; border:none; background:transparent; cursor:pointer;" ${index === 0 ? 'disabled' : ''}>▲</button>
-                        <button onclick="moveAreaOrder(${index}, 1)" title="Descendre" style="padding:4px; border:none; background:transparent; cursor:pointer;" ${index === areas.length - 1 ? 'disabled' : ''}>▼</button>
+                        <button onclick="moveAreaOrder(${index}, -1)" title="Monter" style="padding:4px; border:none; background:transparent; cursor:pointer; color: black;" ${index === 0 ? 'disabled' : ''}>▲</button>
+                        <button onclick="moveAreaOrder(${index}, 1)" title="Descendre" style="padding:4px; border:none; background:transparent; cursor:pointer; color: black;" ${index === areas.length - 1 ? 'disabled' : ''}>▼</button>
                     </td>
                     <td>${area.shape}</td>
                     <td>${coordsText}</td>
@@ -1135,16 +1137,23 @@
     
         function moveAreaOrder(index, direction) {
             const newIndex = index + direction;
-            if (newIndex < 0 || newIndex >= areas.length) return;
-    
-            [areas[index], areas[newIndex]] = [areas[newIndex], areas[index]]; // Swap
-    
+
+            // Vérifie si le déplacement est possible
+            if (newIndex < 0 || newIndex >= areas.length) {
+                return;
+            }
+
+            // Intervertit les éléments dans le tableau
+            [areas[index], areas[newIndex]] = [areas[newIndex], areas[index]];
+
+            // Met à jour l'index de la zone sélectionnée si elle a été déplacée
             if (selectedAreaIndex === index) {
                 selectedAreaIndex = newIndex;
             } else if (selectedAreaIndex === newIndex) {
                 selectedAreaIndex = index;
             }
-    
+
+            // Rafraîchit l'interface pour refléter le nouvel ordre
             updateAreasTable();
             updateHTML();
             redrawCanvas();
