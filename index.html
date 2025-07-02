@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <!-- Made by Paul GAUTIER - 2025 -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Content Tool</title>
-    <link rel="icon" href="Lien_Mapping_Icon.svg" type="image/png">
+    <link rel="icon" href="https://raw.githubusercontent.com/polog8/ICT/main/Lien_Mapping_Icon.svg" type="image/svg+xml">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -55,10 +54,10 @@
             gap: 10px;
         }
 
-            .section-title svg {
-                width: 24px;
-                height: 24px;
-            }
+        .section-title svg {
+            width: 24px;
+            height: 24px;
+        }
 
         .section-description {
             color: var(--gray);
@@ -72,9 +71,9 @@
             margin-bottom: 20px;
         }
 
-            .input-group.full {
-                width: 100%;
-            }
+        .input-group.full {
+            width: 100%;
+        }
 
         input, select, textarea, button {
             font-family: 'Inter', sans-serif;
@@ -89,11 +88,11 @@
             flex-grow: 1;
         }
 
-            input:focus, select:focus, textarea:focus {
-                outline: none;
-                border-color: var(--primary);
-                box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-            }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
 
         button {
             background-color: var(--primary);
@@ -108,30 +107,35 @@
             white-space: nowrap;
         }
 
-            button:hover {
-                background-color: var(--primary-dark);
-            }
+        button:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        button:disabled {
+            background-color: var(--gray-light);
+            cursor: not-allowed;
+        }
 
-            button svg {
-                width: 16px;
-                height: 16px;
-            }
+        button svg {
+            width: 16px;
+            height: 16px;
+        }
 
         .btn-secondary {
             background-color: var(--secondary);
         }
 
-            .btn-secondary:hover {
-                background-color: #0d9668;
-            }
+        .btn-secondary:hover {
+            background-color: #0d9668;
+        }
 
         .btn-danger {
             background-color: var(--danger);
         }
 
-            .btn-danger:hover {
-                background-color: #dc2626;
-            }
+        .btn-danger:hover {
+            background-color: #dc2626;
+        }
 
         .btn-outline {
             background-color: transparent;
@@ -139,9 +143,9 @@
             border: 1px solid var(--gray-light);
         }
 
-            .btn-outline:hover {
-                background-color: var(--gray-light);
-            }
+        .btn-outline:hover {
+            background-color: var(--gray-light);
+        }
 
         .output-display {
             background-color: #f8fafc;
@@ -153,12 +157,12 @@
             justify-content: space-between;
         }
 
-            .output-display p {
-                margin: 0;
-                word-break: break-all;
-                color: var(--primary);
-                font-weight: 500;
-            }
+        .output-display p {
+            margin: 0;
+            word-break: break-all;
+            color: var(--primary);
+            font-weight: 500;
+        }
 
         #canvasContainer {
             position: relative;
@@ -174,6 +178,13 @@
             cursor: crosshair;
         }
 
+        canvas.draggable {
+            cursor: grab;
+        }
+        canvas.dragging {
+            cursor: grabbing;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -187,6 +198,7 @@
             padding: 12px 16px;
             text-align: left;
             border-bottom: 1px solid var(--gray-light);
+            vertical-align: middle;
         }
 
         th {
@@ -202,6 +214,7 @@
         .control-panel {
             display: flex;
             flex-wrap: wrap;
+            align-items: center;
             gap: 10px;
             margin: 20px 0;
         }
@@ -246,7 +259,7 @@
             width: 100%;
             min-height: 100px;
             font-family: monospace;
-            resize: none;
+            resize: vertical;
             background-color: #f8fafc;
         }
 
@@ -256,28 +269,28 @@
             margin-left: 8px;
         }
 
-            .tooltip .tooltip-text {
-                visibility: hidden;
-                width: 200px;
-                background-color: #333;
-                color: #fff;
-                text-align: center;
-                border-radius: 6px;
-                padding: 8px;
-                position: absolute;
-                z-index: 1;
-                bottom: 125%;
-                left: 50%;
-                transform: translateX(-50%);
-                opacity: 0;
-                transition: opacity 0.3s;
-                font-size: 12px;
-            }
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 200px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 12px;
+        }
 
-            .tooltip:hover .tooltip-text {
-                visibility: visible;
-                opacity: 1;
-            }
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
 
         @media (max-width: 768px) {
             .input-group {
@@ -305,19 +318,19 @@
             transition: background-color 0.2s ease;
         }
 
-            .config-item:hover {
-                background-color: var(--gray-light);
-            }
+        .config-item:hover {
+            background-color: var(--gray-light);
+        }
 
-            .config-item a {
-                color: var(--primary);
-                text-decoration: none;
-                font-weight: 500;
-            }
+        .config-item a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
 
-                .config-item a:hover {
-                    text-decoration: underline;
-                }
+        .config-item a:hover {
+            text-decoration: underline;
+        }
 
         .dropdown {
             position: relative;
@@ -334,16 +347,16 @@
             border-radius: var(--radius);
         }
 
-            .dropdown-content a {
-                color: var(--dark);
-                padding: 12px 16px;
-                text-decoration: none;
-                display: block;
-            }
+        .dropdown-content a {
+            color: var(--dark);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
 
-                .dropdown-content a:hover {
-                    background-color: var(--gray-light);
-                }
+        .dropdown-content a:hover {
+            background-color: var(--gray-light);
+        }
 
         .dropdown:hover .dropdown-content {
             display: block;
@@ -394,7 +407,7 @@
             padding-bottom: 15px;
             border-bottom: 1px solid var(--gray-light);
         }
-        
+
         .modal-title {
             font-size: 22px;
             font-weight: 600;
@@ -448,7 +461,6 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            
             position: fixed;
             top: 0;
             left: 0;
@@ -465,17 +477,22 @@
             align-items: center;
             gap: 15px;
         }
+        .control-panel button.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        .control-panel button.active svg {
+            stroke: white;
+        }
     </style>
 </head>
-
 <body>
     <header class="app-header">
         <div class="header-brand">
-        <img src="Lien_Mapping_Icon.svg" style="height: 50px;">
-        
+            <img src="https://raw.githubusercontent.com/polog8/ICT/main/Lien_Mapping_Icon.svg" style="height: 50px;" alt="Logo de l'application ICT">
             <h1 class="header-title">Interactive Content Tool</h1>
         </div>
-
         <button id="userGuideBtn" class="btn-outline" style="background-color: #ffffff; border-color: #333;">
             Guide Utilisateur
         </button>
@@ -487,7 +504,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title">Guide Utilisateur</h2>
-                <button class="modal-close-btn" onclick="closeGuide()">&times;</button>
+                <button class="modal-close-btn" onclick="closeGuide()">×</button>
             </div>
             <div id="guideContent" class="guide-content">
                 <p>Chargement du guide...</p>
@@ -504,21 +521,15 @@
             Convertisseur de lien Google Drive
         </h2>
         <p class="section-description">Transformez vos liens Google Drive en liens d'image directe pour une meilleure intégration.</p>
-
         <div class="input-group full">
             <input type="text" id="inputLink" placeholder="Collez votre lien Google Drive ici" spellcheck="false">
             <button onclick="convertLink()">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="3 6 5 6 21 6"></polyline>
-                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
-                    <line x1="8" y1="11" x2="16" y2="11"></line>
-                    <line x1="8" y1="15" x2="16" y2="15"></line>
-                    <line x1="8" y1="19" x2="16" y2="19"></line>
+                    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line>
                 </svg>
                 Convertir
             </button>
         </div>
-
         <div id="output" class="output-display" style="display: none;"></div>
         <div id="embedOutput" class="output-display" style="display: none;"></div>
     </div>
@@ -533,19 +544,16 @@
             </svg>
             Mapper d'Images Interactif
         </h2>
-        <p class="section-description">Créez facilement des zones cliquables sur vos images et générez le code HTML correspondant.</p>
-
+        <p class="section-description">Pour créer une zone : cliquez et faites glisser sur l'image. Pour sélectionner une zone existante : cliquez dessus.</p>
         <div class="input-group full">
-            <input type="text" id="imageURL" placeholder="Entrez l'URL de l'image à mapper" spellcheck="false">
+            <input type="text" id="imageURL" placeholder="Entrez l'URL de l'image à mapper (provenant du convertisseur ci-dessus)" spellcheck="false">
             <button onclick="loadImage()">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <polyline points="19 12 12 19 5 12"></polyline>
+                    <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
                 </svg>
                 Charger l'image
             </button>
         </div>
-
         <div class="control-panel">
             <button onclick="resetZones()" class="btn-outline">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -572,29 +580,34 @@
             </button>
             <div class="checkbox-container">
                 <input type="checkbox" id="snapToggle" onchange="toggleSnap()">
-                <label for="snapToggle">Activer le Snap sur grille</label>
+                <label for="snapToggle">Snap sur grille</label>
                 <div class="tooltip">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="12" y1="16" x2="12" y2="12"></line>
-                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        <circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line>
                     </svg>
                     <span class="tooltip-text">Aligne automatiquement les zones sur une grille de 5px pour plus de précision</span>
                 </div>
             </div>
         </div>
+        <div class="control-panel" style="border-top: 1px solid var(--gray-light); padding-top: 20px; margin-top: 0;">
+            <label style="font-weight: 500;">Outil de dessin :</label>
+            <button id="shape-rect" class="btn-outline active">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect></svg>
+                Rectangle
+            </button>
+            <button id="shape-circle" class="btn-outline">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>
+                Cercle
+            </button>
+            <button id="shape-poly" class="btn-outline">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l10 6.5v7L12 22 2 15.5v-7L12 2z"></path></svg>
+                Polygone
+            </button>
+        </div>
+
         <div id="canvasContainer">
             <canvas id="imageCanvas"></canvas>
         </div>
-
-        <p class="section-description" style="margin-top: 16px;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 5px;">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="12" y1="16" x2="12" y2="12"></line>
-                <line x1="12" y1="8" x2="12.01" y2="8"></line>
-            </svg>
-            Pour créer une zone : cliquez et faites glisser sur l'image. Pour sélectionner une zone existante : cliquez dessus.
-        </p>
 
         <div id="zoneEditor" class="editor-panel" style="display:none;">
             <h3 style="margin-bottom: 16px; font-size: 18px;">Éditer la zone sélectionnée</h3>
@@ -602,7 +615,7 @@
                 <input type="text" id="editTitle" placeholder="Titre (tooltip)">
                 <input type="text" id="editLink" placeholder="URL du lien">
                 <select id="editTarget">
-                    <option value="_top">Pleine fenêtre (_top) (No link)</option>
+                    <option value="_top">Pleine fenêtre (_top) (No Link)</option>
                     <option value="_blank">Nouvelle fenêtre (_blank) (Link)</option>
                     <option value="_self">Même fenêtre (_self)</option>
                     <option value="_parent">Fenêtre parente (_parent)</option>
@@ -614,14 +627,7 @@
             </div>
             <div class="editor-actions">
                 <button class="btn-outline" onclick="cancelEdit()">Annuler</button>
-                <button onclick="updateZone()">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
-                        <polyline points="17 21 17 13 7 13 7 21"></polyline>
-                        <polyline points="7 3 7 8 15 8"></polyline>
-                    </svg>
-                    Enregistrer
-                </button>
+                <button onclick="updateZone()">Enregistrer</button>
             </div>
         </div>
 
@@ -631,6 +637,8 @@
                 <thead>
                     <tr>
                         <th>#</th>
+                        <th>Ordre</th>
+                        <th>Forme</th>
                         <th>Coordonnées</th>
                         <th>Titre</th>
                         <th>Lien</th>
@@ -645,781 +653,958 @@
 
         <div style="margin-top: 30px;">
             <h3 style="margin-bottom: 16px; font-size: 18px;">Code HTML généré</h3>
-            <textarea id="htmlOutput" rows="6" readonly spellcheck="false"></textarea>
+            <textarea id="htmlOutput" rows="10" readonly spellcheck="false"></textarea>
             <div style="margin-top: 10px; text-align: right;">
-                <button id="copyHtmlButton" onclick="copyHtmlCode()" class="btn-secondary">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-                        <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
-                    </svg>
-                    Copier
-                </button>
+                <button id="copyHtmlButton" onclick="copyHtmlCode()" class="btn-secondary">Copier le code</button>
             </div>
         </div>
 
-        <div id="savedConfigsList" class="section-description" style="margin-bottom: 20px;">
+        <div id="savedConfigsList" class="section-description" style="margin-top: 20px;">
             <h3 style="font-size: 18px;">Configurations sauvegardées</h3>
             <ul id="configsList" style="list-style: none; padding: 0;"></ul>
         </div>
+    </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-        <script>
-
-            const guideBtn = document.getElementById('userGuideBtn');
-            const modal = document.getElementById('guideModal');
-            const guideContent = document.getElementById('guideContent');
-            let guideLoaded = false;
-
-            async function openGuide() {
-                modal.classList.add('visible');
-                if (!guideLoaded) {
-                    guideContent.innerHTML = "<p>Chargement du guide...</p>";
-                    try {
-                        const url = 'https://raw.githubusercontent.com/polog8/ICT/main/README.md';
-                        const response = await fetch(url);
-
-                        if (!response.ok) {
-                            throw new Error(`Erreur réseau : ${response.statusText}`);
-                        }
-                        
-                        const markdownContent = await response.text();
-                        
-                        guideContent.innerHTML = marked.parse(markdownContent);
-                        guideLoaded = true;
-
-                    } catch (error) {
-                        console.error("Erreur lors du chargement du guide:", error);
-                        guideContent.innerHTML = `<p style="color:var(--danger);">Impossible de charger le guide. Veuillez vérifier la console pour plus de détails ou <a href="https://github.com/polog8/ICT/blob/main/README.md" target="_blank" rel="noopener noreferrer">consultez-le directement sur GitHub</a>.</p>`;
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        const guideBtn = document.getElementById('userGuideBtn');
+        const modal = document.getElementById('guideModal');
+        const guideContent = document.getElementById('guideContent');
+        let guideLoaded = false;
+    
+        async function openGuide() {
+            modal.classList.add('visible');
+            if (!guideLoaded) {
+                guideContent.innerHTML = "<p>Chargement du guide...</p>";
+                try {
+                    const url = 'https://raw.githubusercontent.com/polog8/ICT/main/README.md';
+                    const response = await fetch(url);
+                    if (!response.ok) {
+                        throw new Error(`Erreur réseau : ${response.statusText}`);
                     }
+                    const markdownContent = await response.text();
+                    guideContent.innerHTML = marked.parse(markdownContent);
+                    guideLoaded = true;
+                } catch (error) {
+                    console.error("Erreur lors du chargement du guide:", error);
+                    guideContent.innerHTML = `<p style="color:var(--danger);">Impossible de charger le guide. Veuillez vérifier la console pour plus de détails ou <a href="https://github.com/polog8/ICT/blob/main/README.md" target="_blank" rel="noopener noreferrer">consultez-le directement sur GitHub</a>.</p>`;
                 }
             }
-        
-            function closeGuide() {
-                modal.classList.remove('visible');
+        }
+    
+        function closeGuide() {
+            modal.classList.remove('visible');
+        }
+    
+        guideBtn.addEventListener('click', openGuide);
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                closeGuide();
             }
-
-            guideBtn.addEventListener('click', openGuide);
-
-            modal.addEventListener('click', (event) => {
-                if (event.target === modal) {
-                    closeGuide();
-                }
-            });
-
-            document.addEventListener('keydown', (event) => {
-                if (event.key === 'Escape' && modal.classList.contains('visible')) {
-                    closeGuide();
-                }
-            });
-
-
-            let canvas = document.getElementById("imageCanvas"),
-                ctx = canvas.getContext("2d"),
-                image = new Image(),
-                areas = [];
-            let startX, startY, currentRect = null, drawing = false,
-                scaleFactor = 1.5,
-                hoveredAreaIndex = -1,
-                selectedAreaIndex = -1,
-                isDraggingArea = false, dragOffset = { x: 0, y: 0 },
-                isResizingArea = false, resizeCorner = null;
-            const handleSize = 6;
-            const handleTolerance = 4;
-            let snapEnabled = false, snapGrid = 5; // Taille d'un carreau de la grille générée
-
-            function convertLink() {
-                let input = document.getElementById("inputLink").value.trim();
-                let regex = /https:\/\/drive\.google\.com\/file\/d\/([^\/]+)\/view(?:\?[^\/]+)?/;
-                let match = input.match(regex);
-
-                if (match && match[1]) {
-                    let fileId = match[1];
-                    let newLink = "https://lh3.googleusercontent.com/d/" + fileId;
-                    let embedCode = `<style>
-.responsive-image { width: 100%; height: auto; display: block; }
-</style>
-<img src="${newLink}" usemap="#image-map" class="responsive-image">`;
-
-                    let out = document.getElementById("output");
-                    out.style.display = "flex";
-                    out.innerHTML = `<p>Lien modifié</p>`;
-
-                    let btnLink = document.createElement("button");
-                    btnLink.className = "btn-secondary";
-                    btnLink.innerHTML = `
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-                                <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
-                            </svg>
-                            Copier`;
-                    btnLink.addEventListener("click", () => {
-                        copyToClipboard(newLink);
-                        btnLink.innerHTML = `
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="20 6 9 17 4 12"></polyline>
-                            </svg>
-                            Copié!`;
-                        setTimeout(() => {
-                            btnLink.innerHTML = `
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-                                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
-                                </svg>
-                                Copier`;
-                        }, 2000);
-                    });
-                    out.appendChild(btnLink);
-
-                    let embedOut = document.getElementById("embedOutput");
-                    embedOut.style.display = "flex";
-                    embedOut.innerHTML = "<p>Code d'intégration HTML</p>";
-
-                    let btnEmbed = document.createElement("button");
-                    btnEmbed.className = "btn-secondary";
-                    btnEmbed.innerHTML = `
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-                                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
-                                </svg>
-                                Copier`;
-                    btnEmbed.addEventListener("click", () => {
-                        copyToClipboard(embedCode);
-                        btnEmbed.innerHTML = `
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                </svg>
-                                Copié!`;
-                        setTimeout(() => {
-                            btnEmbed.innerHTML = `
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-                                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
-                                </svg>
-                                Copier`;
-                        }, 2000);
-                    });
-                    embedOut.appendChild(btnEmbed);
-                } else {
-                    document.getElementById("output").style.display = "flex";
-                    document.getElementById("output").innerHTML = "<p>Format de lien Google Drive invalide.</p>";
-                    document.getElementById("embedOutput").style.display = "none";
-                }
+        });
+    
+        // --- Variables globales pour le canvas et l'état de l'application ---
+        let canvas = document.getElementById("imageCanvas"),
+            ctx = canvas.getContext("2d"),
+            image = new Image(),
+            areas = [];
+        let startX, startY, currentRect = null,
+            drawing = false,
+            scaleFactor = 1.5,
+            hoveredAreaIndex = -1,
+            selectedAreaIndex = -1,
+            isDraggingArea = false,
+            dragOffset = {
+                x: 0,
+                y: 0
+            },
+            isResizingArea = false,
+            resizeCorner = null;
+        const handleSize = 6;
+        const handleTolerance = 4;
+        let snapEnabled = false,
+            snapGrid = 5;
+    
+        let currentShape = 'rect'; // Forme active par défaut
+        let isDrawingPoly = false;
+        let currentPolyPoints = [];
+    
+        // --- Initialisation des boutons de l'interface ---
+        const shapeButtons = {
+            rect: document.getElementById('shape-rect'),
+            circle: document.getElementById('shape-circle'),
+            poly: document.getElementById('shape-poly')
+        };
+    
+        function setActiveShape(shape) {
+            // Annule tout dessin en cours
+            isDrawingPoly = false;
+            currentPolyPoints = [];
+            drawing = false;
+            currentRect = null;
+            
+            currentShape = shape;
+            for (const key in shapeButtons) {
+                shapeButtons[key].classList.remove('active');
             }
-
-            function copyToClipboard(text, button) {
-                navigator.clipboard.writeText(text).then(() => {
-                    if (button) {
-                        button.innerHTML = `
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                </svg>
-                                Copié!`;
-                        setTimeout(() => {
-                            button.innerHTML = `
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-                                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
-                                </svg>
-                                Copier`;
-                        }, 2000);
-                    }
-                }).catch(err => console.error("Erreur lors de la copie :", err));
+            shapeButtons[shape].classList.add('active');
+            
+            // Active le mode de dessin de polygone si l'outil est sélectionné
+            if (shape === 'poly' && image.src) {
+                isDrawingPoly = true;
             }
-
-            function copyHtmlCode() {
-                let htmlOutput = document.getElementById("htmlOutput").value;
-                let copyButton = document.getElementById("copyHtmlButton");
-                copyToClipboard(htmlOutput, copyButton);
+            
+            const instructions = document.querySelector('.section-description');
+            if (shape === 'poly') {
+                instructions.innerHTML = `Mode Polygone : Cliquez pour ajouter des points. Appuyez sur <strong>Entrée</strong> pour terminer.`;
+            } else {
+                instructions.innerHTML = `Pour créer une zone : cliquez et faites glisser sur l'image. Pour sélectionner une zone existante : cliquez dessus.`;
             }
-
-            function loadImage() {
-                let url = document.getElementById("imageURL").value.trim();
-                if (!url) {
-                    alert("Veuillez entrer une URL d'image valide.");
-                    return;
-                }
-
-                image.src = url;
-                image.onload = () => {
-                    canvas.width = image.width * scaleFactor;
-                    canvas.height = image.height * scaleFactor;
-                    areas = [];
-                    selectedAreaIndex = -1;
-                    updateAreasTable();
-                    updateHTML();
-                    redrawCanvas();
-                };
-
-                image.onerror = () => {
-                    alert("Impossible de charger l'image. Vérifiez l'URL et réessayez.");
-                };
+            redrawCanvas();
+        }
+    
+        shapeButtons.rect.addEventListener('click', () => setActiveShape('rect'));
+        shapeButtons.circle.addEventListener('click', () => setActiveShape('circle'));
+        shapeButtons.poly.addEventListener('click', () => {
+            setActiveShape('poly');
+            if(image.src) {
+                alert("Mode Polygone :\n- Cliquez pour ajouter un point.\n- Appuyez sur 'Entrée' pour terminer la forme.");
             }
+        });
+    
+        // --- Fonctions utilitaires (Convertisseur de lien, Copier/Coller) ---
+        function convertLink() {
+            let input = document.getElementById("inputLink").value.trim();
+            // Regex pour l'URL originale
+            let regex = /https:\/\/drive\.google\.com\/file\/d\/([^\/]+)\/view(?:\?[^\/]+)?/;
+            let match = input.match(regex);
 
-            function redrawCanvas() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+            if (match && match[1]) {
+                let fileId = match[1];
+                // Utilisation de l'ancien format avec lh3.googleusercontent.com
+                let newLink = `https://lh3.googleusercontent.com/d/${fileId}`;
+                let embedCode = `<img src="${newLink}" usemap="#image-map" style="max-width:100%; height:auto;">`;
 
-                // overlay semi-transparent pour assombrir l'image
-                //if (currentRect || selectedAreaIndex !== -1) {
-                //    ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
-                //    ctx.fillRect(0, 0, canvas.width, canvas.height);
-                //}
+                // Modifie l'affichage du premier résultat
+                let out = document.getElementById("output");
+                out.style.display = "flex";
+                out.innerHTML = `<p>Lien brut</p>`;
 
-                areas.forEach((area, index) => {
-                    let x = area.x * scaleFactor,
-                        y = area.y * scaleFactor,
-                        w = area.width * scaleFactor,
-                        h = area.height * scaleFactor;
-
-                    ctx.fillStyle = "rgba(255, 255, 255, 0.1)";
-                    ctx.fillRect(x, y, w, h);
-
-                    if (index === hoveredAreaIndex) {
-                        ctx.fillStyle = "rgba(59, 130, 246, 0.2)";
-                        ctx.fillRect(x, y, w, h);
-                        ctx.strokeStyle = "rgba(59, 130, 246, 0.8)";
-                        ctx.lineWidth = 2;
-                    } else if (index === selectedAreaIndex) {
-                        ctx.strokeStyle = "rgba(59, 130, 246, 0.8)";
-                        ctx.lineWidth = 2;
-                    } else {
-                        ctx.strokeStyle = area.color || "#ff0000";
-                        ctx.lineWidth = 2;
-                    }
-
-                    ctx.strokeRect(x, y, w, h);
-
-                    if (index === selectedAreaIndex) {
-                        drawHandles(x, y, w, h);
-                    }
+                let btnLink = document.createElement("button");
+                btnLink.className = "btn-secondary";
+                btnLink.textContent = 'Copier le lien';
+                btnLink.addEventListener("click", () => {
+                    copyToClipboard(newLink, btnLink);
                 });
-
-                if (currentRect) {
-                    ctx.fillStyle = "rgba(59, 130, 246, 0.3)";
-                    ctx.fillRect(currentRect.x, currentRect.y, currentRect.w, currentRect.h);
-                    ctx.strokeStyle = "rgba(59, 130, 246, 0.8)";
-                    ctx.lineWidth = 2;
-                    ctx.strokeRect(currentRect.x, currentRect.y, currentRect.w, currentRect.h);
+                // S'assure que le bouton n'est pas ajouté plusieurs fois
+                if (out.children.length > 1) {
+                    out.removeChild(out.lastChild);
                 }
+                out.appendChild(btnLink);
+
+                // Met à jour l'URL pour l'outil de mapping
+                document.getElementById("imageURL").value = newLink;
+
+                // Modifie l'affichage du second résultat
+                let embedOut = document.getElementById("embedOutput");
+                embedOut.style.display = "flex";
+                embedOut.innerHTML = "<p>Code d'intégration HTML</p>";
+
+                let btnEmbed = document.createElement("button");
+                btnEmbed.className = "btn-secondary";
+                btnEmbed.textContent = 'Copier le code';
+                btnEmbed.addEventListener("click", () => {
+                    copyToClipboard(embedCode, btnEmbed);
+                });
+                // S'assure que le bouton n'est pas ajouté plusieurs fois
+                if (embedOut.children.length > 1) {
+                    embedOut.removeChild(embedOut.lastChild);
+                }
+                embedOut.appendChild(btnEmbed);
+
+            } else {
+                document.getElementById("output").style.display = "flex";
+                document.getElementById("output").innerHTML = "<p>Format de lien Google Drive invalide.</p>";
+                document.getElementById("embedOutput").style.display = "none";
             }
-
-            function drawHandles(x, y, w, h) {
-                const handles = [
-                    { x: x, y: y },                    // top-left
-                    { x: x + w / 2, y: y },              // top-center
-                    { x: x + w, y: y },                // top-right
-                    { x: x, y: y + h / 2 },              // middle-left
-                    { x: x + w, y: y + h / 2 },          // middle-right
-                    { x: x, y: y + h },                // bottom-left
-                    { x: x + w / 2, y: y + h },          // bottom-center
-                    { x: x + w, y: y + h }             // bottom-right
-                ];
-
-                ctx.fillStyle = "white";
+        }
+    
+        function copyToClipboard(text, button) {
+            navigator.clipboard.writeText(text).then(() => {
+                if (button) {
+                    const originalText = button.textContent;
+                    button.textContent = 'Copié !';
+                    setTimeout(() => {
+                        button.textContent = originalText;
+                    }, 2000);
+                }
+            }).catch(err => console.error("Erreur lors de la copie :", err));
+        }
+    
+        function copyHtmlCode() {
+            let htmlOutput = document.getElementById("htmlOutput").value;
+            let copyButton = document.getElementById("copyHtmlButton");
+            copyToClipboard(htmlOutput, copyButton);
+        }
+    
+        // --- Fonctions principales de l'outil de mapping ---
+        function loadImage() {
+            let url = document.getElementById("imageURL").value.trim();
+            if (!url) {
+                alert("Veuillez entrer une URL d'image valide.");
+                return;
+            }
+    
+            image.src = url;
+            image.onload = () => {
+                canvas.width = image.width * scaleFactor;
+                canvas.height = image.height * scaleFactor;
+                resetZones();
+            };
+    
+            image.onerror = () => {
+                alert("Impossible de charger l'image. Vérifiez l'URL et que le partage de lien est bien activé sur Google Drive.");
+            };
+        }
+    
+        function updateAreaBoundingBox(area) {
+            if (!area) return;
+    
+            switch (area.shape) {
+                case 'rect':
+                    break;
+                case 'circle':
+                    area.x = area.cx - area.radius;
+                    area.y = area.cy - area.radius;
+                    area.width = area.radius * 2;
+                    area.height = area.radius * 2;
+                    break;
+                case 'poly':
+                    let minX = Infinity,
+                        minY = Infinity,
+                        maxX = -Infinity,
+                        maxY = -Infinity;
+                    area.points.forEach(p => {
+                        minX = Math.min(minX, p.x);
+                        minY = Math.min(minY, p.y);
+                        maxX = Math.max(maxX, p.x);
+                        maxY = Math.max(maxY, p.y);
+                    });
+                    area.x = minX;
+                    area.y = minY;
+                    area.width = maxX - minX;
+                    area.height = maxY - minY;
+                    break;
+            }
+        }
+    
+        function moveArea(area, dx, dy) {
+            if (!area) return;
+            const deltaX = dx / scaleFactor;
+            const deltaY = dy / scaleFactor;
+    
+            switch (area.shape) {
+                case 'circle':
+                    area.cx += deltaX;
+                    area.cy += deltaY;
+                    break;
+                case 'poly':
+                    area.points.forEach(p => {
+                        p.x += deltaX;
+                        p.y += deltaY;
+                    });
+                    break;
+                case 'rect':
+                default:
+                    area.x += deltaX;
+                    area.y += deltaY;
+                    break;
+            }
+            updateAreaBoundingBox(area);
+        }
+    
+        function redrawCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (image.src) {
+                ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+            }
+    
+            areas.forEach((area, index) => {
+                ctx.save();
+    
+                if (index === selectedAreaIndex) {
+                    ctx.fillStyle = "rgba(59, 130, 246, 0.3)";
+                    ctx.strokeStyle = "rgba(59, 130, 246, 1)";
+                    ctx.lineWidth = 2;
+                } else if (index === hoveredAreaIndex) {
+                    ctx.fillStyle = "rgba(59, 130, 246, 0.2)";
+                    ctx.strokeStyle = "rgba(59, 130, 246, 0.8)";
+                    ctx.lineWidth = 1.5;
+                } else {
+                    ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+                    ctx.strokeStyle = area.color || "#ff0000";
+                    ctx.lineWidth = 2;
+                }
+    
+                ctx.beginPath();
+                switch (area.shape) {
+                    case 'circle':
+                        ctx.arc(area.cx * scaleFactor, area.cy * scaleFactor, area.radius * scaleFactor, 0, Math.PI * 2);
+                        break;
+                    case 'poly':
+                        area.points.forEach((p, i) => {
+                            const x = p.x * scaleFactor;
+                            const y = p.y * scaleFactor;
+                            if (i === 0) ctx.moveTo(x, y);
+                            else ctx.lineTo(x, y);
+                        });
+                        ctx.closePath();
+                        break;
+                    case 'rect':
+                    default:
+                        ctx.rect(area.x * scaleFactor, area.y * scaleFactor, area.width * scaleFactor, area.height * scaleFactor);
+                        break;
+                }
+                ctx.fill();
+                ctx.stroke();
+                ctx.restore();
+    
+                if (index === selectedAreaIndex) {
+                    const handles = getHandlesForArea(area);
+                    drawHandles(handles);
+                }
+            });
+    
+            if (isDrawingPoly && currentPolyPoints.length > 0) {
+                ctx.beginPath();
                 ctx.strokeStyle = "rgba(59, 130, 246, 0.8)";
-
-                handles.forEach(handle => {
+                ctx.lineWidth = 2;
+                currentPolyPoints.forEach((p, i) => {
+                    if (i === 0) ctx.moveTo(p.x, p.y);
+                    else ctx.lineTo(p.x, p.y);
+                });
+                ctx.stroke();
+            }
+    
+            if (currentRect) {
+                ctx.fillStyle = "rgba(59, 130, 246, 0.3)";
+                ctx.strokeStyle = "rgba(59, 130, 246, 0.8)";
+                ctx.lineWidth = 2;
+                if (currentShape === 'rect') {
+                    ctx.fillRect(currentRect.x, currentRect.y, currentRect.w, currentRect.h);
+                    ctx.strokeRect(currentRect.x, currentRect.y, currentRect.w, currentRect.h);
+                } else if (currentShape === 'circle') {
+                    const radius = Math.sqrt(Math.pow(currentRect.w, 2) + Math.pow(currentRect.h, 2));
                     ctx.beginPath();
-                    ctx.arc(handle.x, handle.y, handleSize, 0, Math.PI * 2);
+                    ctx.arc(currentRect.x, currentRect.y, radius, 0, Math.PI * 2);
                     ctx.fill();
                     ctx.stroke();
-                });
-            }
-
-            function detectHandle(mouseX, mouseY, x, y, w, h) {
-                const handles = {
-                    "tl": { x: x, y: y },
-                    "tr": { x: x + w, y: y },
-                    "bl": { x: x, y: y + h },
-                    "br": { x: x + w, y: y + h },
-                    "tc": { x: x + w / 2, y: y },
-                    "bc": { x: x + w / 2, y: y + h },
-                    "ml": { x: x, y: y + h / 2 },
-                    "mr": { x: x + w, y: y + h / 2 }
-                };
-
-                for (let key in handles) {
-                    let hx = handles[key].x,
-                        hy = handles[key].y;
-                    // Util dist euclidienne
-                    let distance = Math.sqrt(Math.pow(mouseX - hx, 2) + Math.pow(mouseY - hy, 2));
-                    if (distance <= handleSize + handleTolerance) {
-                        return key;
-                    }
                 }
-                return null;
             }
+        }
+    
+        // REMPLACER les fonctions drawHandles et detectHandle par celles-ci
 
-            function getAreaAt(x, y) {
-                for (let i = 0; i < areas.length; i++) {
-                    let area = areas[i],
-                        ax = area.x * scaleFactor,
-                        ay = area.y * scaleFactor,
-                        aw = area.width * scaleFactor,
-                        ah = area.height * scaleFactor;
-                    if (x >= ax && x <= ax + aw && y >= ay && y <= ay + ah) return i;
+        /**
+         * Dessine un tableau de poignées sur le canvas.
+         * @param {Array} handles - Un tableau d'objets poignée.
+         */
+        function drawHandles(handles) {
+            handles.forEach(handle => {
+                ctx.save();
+                ctx.fillStyle = "white";
+                ctx.strokeStyle = "rgba(59, 130, 246, 0.8)";
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.arc(handle.x * scaleFactor, handle.y * scaleFactor, handleSize, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+                ctx.restore();
+            });
+        }
+
+        /**
+         * Retourne un tableau d'objets représentant les poignées de modification pour une zone donnée.
+         * @param {Object} area - La zone pour laquelle obtenir les poignées.
+         * @returns {Array} - Un tableau d'objets poignée.
+         */
+        function getHandlesForArea(area) {
+            if (!area) return [];
+            const handles = [];
+
+            switch (area.shape) {
+                case 'rect':
+                    const x = area.x, y = area.y, w = area.width, h = area.height;
+                    // Les 8 poignées du rectangle
+                    handles.push({ x: x,       y: y,       type: 'rect-resize', corner: 'tl' });
+                    handles.push({ x: x + w/2, y: y,       type: 'rect-resize', corner: 'tc' });
+                    handles.push({ x: x + w,   y: y,       type: 'rect-resize', corner: 'tr' });
+                    handles.push({ x: x,       y: y + h/2, type: 'rect-resize', corner: 'ml' });
+                    handles.push({ x: x + w,   y: y + h/2, type: 'rect-resize', corner: 'mr' });
+                    handles.push({ x: x,       y: y + h,   type: 'rect-resize', corner: 'bl' });
+                    handles.push({ x: x + w/2, y: y + h,   type: 'rect-resize', corner: 'bc' });
+                    handles.push({ x: x + w,   y: y + h,   type: 'rect-resize', corner: 'br' });
+                    break;
+                case 'circle':
+                    // Poignée pour le rayon du cercle (1 poignée)
+                    handles.push({ x: area.cx + area.radius, y: area.cy, type: 'circle-resize' });
+                    break;
+                case 'poly':
+                    // Poignées pour chaque sommet du polygone
+                    area.points.forEach((point, index) => {
+                        handles.push({ x: point.x, y: point.y, type: 'poly-move-point', index: index });
+                    });
+                    break;
+            }
+            return handles;
+        }
+    
+        function getAreaAt(x, y) {
+            for (let i = areas.length - 1; i >= 0; i--) {
+                let area = areas[i];
+                let isInside = false;
+    
+                switch (area.shape) {
+                    case 'circle':
+                        const dist = Math.sqrt(Math.pow((x / scaleFactor) - area.cx, 2) + Math.pow((y / scaleFactor) - area.cy, 2));
+                        if (dist <= area.radius) isInside = true;
+                        break;
+                    case 'poly':
+                        let pointX = x / scaleFactor, pointY = y / scaleFactor;
+                        let polyPoints = area.points;
+                        let j = polyPoints.length - 1;
+                        for (let k = 0; k < polyPoints.length; k++) {
+                            if ((polyPoints[k].y > pointY) !== (polyPoints[j].y > pointY) &&
+                                (pointX < (polyPoints[j].x - polyPoints[k].x) * (pointY - polyPoints[k].y) / (polyPoints[j].y - polyPoints[k].y) + polyPoints[k].x)) {
+                                isInside = !isInside;
+                            }
+                            j = k;
+                        }
+                        break;
+                    case 'rect':
+                    default:
+                        if (x >= area.x * scaleFactor && x <= (area.x + area.width) * scaleFactor &&
+                            y >= area.y * scaleFactor && y <= (area.y + area.height) * scaleFactor) {
+                            isInside = true;
+                        }
+                        break;
                 }
-                return -1;
+                if (isInside) return i;
             }
-
-            function updateAreasTable() {
-                let tbody = document.querySelector("#areasTable tbody");
-                tbody.innerHTML = "";
-                areas.forEach((area, index) => {
-                    let row = document.createElement("tr");
-                    row.innerHTML = `
-                        <td>${index + 1}</td>
-                        <td>${Math.round(area.x)}, ${Math.round(area.y)}, ${Math.round(area.width)}, ${Math.round(area.height)}</td>
-                        <td>${area.title}</td>
-                        <td>${area.link}</td>
-                        <td>${area.target}</td>
-                        <td><span style="display:inline-block;width:20px;height:20px;background:${area.color};"></span></td>
-                        <td>
-                        <button class="btn btn-edit" onclick="editArea(${index})">Modifier</button>
-                        <button class="btn btn-delete" onclick="deleteArea(${index})">Supprimer</button>
-                        </td>`;
-                    tbody.appendChild(row);
-                });
-            }
-
-            function editArea(index) {
+            return -1;
+        }
+    
+        function updateAreasTable() {
+            let tbody = document.querySelector("#areasTable tbody");
+            tbody.innerHTML = "";
+            areas.forEach((area, index) => {
+                let row = document.createElement("tr");
+                let coordsText = '';
+                switch (area.shape) {
+                    case 'circle':
+                        coordsText = `cx:${Math.round(area.cx)}, cy:${Math.round(area.cy)}, r:${Math.round(area.radius)}`;
+                        break;
+                    case 'poly':
+                        coordsText = `${area.points.length} points`;
+                        break;
+                    case 'rect':
+                    default:
+                        coordsText = `x:${Math.round(area.x)}, y:${Math.round(area.y)}, w:${Math.round(area.width)}, h:${Math.round(area.height)}`;
+                        break;
+                }
+    
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>
+                        <button onclick="moveAreaOrder(${index}, -1)" title="Monter" style="padding:4px; border:none; background:transparent; cursor:pointer;" ${index === 0 ? 'disabled' : ''}>▲</button>
+                        <button onclick="moveAreaOrder(${index}, 1)" title="Descendre" style="padding:4px; border:none; background:transparent; cursor:pointer;" ${index === areas.length - 1 ? 'disabled' : ''}>▼</button>
+                    </td>
+                    <td>${area.shape}</td>
+                    <td>${coordsText}</td>
+                    <td>${area.title || ''}</td>
+                    <td>${area.link || ''}</td>
+                    <td>${area.target}</td>
+                    <td><span style="display:inline-block;width:20px;height:20px;background:${area.color};border-radius:50%; border: 1px solid var(--gray-light);"></span></td>
+                    <td>
+                        <button class="btn-edit btn-outline" onclick="editArea(${index})">Modifier</button>
+                        <button class="btn-delete btn-danger" onclick="deleteArea(${index})">Supprimer</button>
+                    </td>`;
+                tbody.appendChild(row);
+            });
+        }
+    
+        function moveAreaOrder(index, direction) {
+            const newIndex = index + direction;
+            if (newIndex < 0 || newIndex >= areas.length) return;
+    
+            [areas[index], areas[newIndex]] = [areas[newIndex], areas[index]]; // Swap
+    
+            if (selectedAreaIndex === index) {
+                selectedAreaIndex = newIndex;
+            } else if (selectedAreaIndex === newIndex) {
                 selectedAreaIndex = index;
-                showEditor(areas[index]);
             }
-
-            function showEditor(area) {
-                document.getElementById("zoneEditor").style.display = "block";
-                document.getElementById("editTitle").value = area.title;
-                document.getElementById("editLink").value = area.link;
-                document.getElementById("editTarget").value = area.target;
-                document.getElementById("editColor").value = area.color || "#ff0000";
-            }
-
-            function cancelEdit() {
-                selectedAreaIndex = -1;
-                document.getElementById("zoneEditor").style.display = "none";
-            }
-
-            function updateZone() {
-                if (selectedAreaIndex === -1) return;
-                areas[selectedAreaIndex].title = document.getElementById("editTitle").value;
-                areas[selectedAreaIndex].link = document.getElementById("editLink").value;
-                areas[selectedAreaIndex].target = document.getElementById("editTarget").value;
-                areas[selectedAreaIndex].color = document.getElementById("editColor").value;
-                selectedAreaIndex = -1;
-                document.getElementById("zoneEditor").style.display = "none";
-                updateAreasTable();
-                updateHTML();
-                redrawCanvas();
-            }
-
-            function deleteArea(index) {
-                areas.splice(index, 1);
-                if (selectedAreaIndex === index) selectedAreaIndex = -1;
-                updateAreasTable();
-                updateHTML();
-                redrawCanvas();
-            }
-
-            function updateHTML() {
-                let imageSrc = document.getElementById("imageURL").value;
-                let htmlCode = `<style>
-                                    #image-container {
-                                        position: relative;
-                                        display: inline-block;
-                                        max-width: 100%;
-                                    }
-
-                                        #image-container img {
-                                            width: 100%;
-                                            height: auto;
-                                            display: block;
-                                        }
-
-                                    #hover-effect {
-                                        position: absolute;
-                                        background: rgba(0, 0, 255, 0.2);
-                                        border: 2px solid rgba(255, 255, 255, 0.5);
-                                        transform: scale(1);
-                                        transition: transform 0.2s ease-in-out, background 0.2s ease-in-out;
-                                        pointer-events: none;
-                                        display: none;
-                                    }
-
-                                    #tooltip {
-                                        position: absolute;
-                                        background: rgba(0, 0, 0, 0.85);
-                                        color: white;
-                                        padding: 8px 12px;
-                                        border-radius: 5px;
-                                        font-size: 14px;
-                                        white-space: nowrap;
-                                        display: none;
-                                        z-index: 1000;
-                                        pointer-events: none;
-                                    }
-                                </style>
-
-                                <div id="image-container">
-                                    <img src="${imageSrc}" usemap="#image-map">
-                                    <div id="hover-effect"></div>
-                                    <div id="tooltip"></div>
-                                </div>
-                                <!-- Made by Paul GAUTIER - 2025 -->
-                                <map name="image-map">`;
-
-                areas.forEach(area => {
-                    let x1 = Math.round(area.x),
-                        y1 = Math.round(area.y),
-                        x2 = Math.round(area.x + area.width),
-                        y2 = Math.round(area.y + area.height);
-
-                    let formattedTitle = area.title.replace(/\n/g, "<br>");
-
-                    htmlCode += `\n  <area shape="rect" coords="${x1},${y1},${x2},${y2}" href="${area.link}" target="${area.target}" data-tooltip="${formattedTitle}" class="hover-effect">`;
-                });
-
-                htmlCode += `\n</map>
-                            <script src="https://cdn.jsdelivr.net/npm/image-map-resizer@1.0.10/js/imageMapResizer.min.js">  </` + `script>
-                            <script>
-                                    imageMapResize();
-
-                                    const imageContainer = document.getElementById("image-container"); // On récupère le conteneur principal
-                                    const hoverEffect = document.getElementById("hover-effect");
-                                    const tooltip = document.getElementById("tooltip");
-                                    const areas = document.querySelectorAll("map area");
-                                
-                                    areas.forEach(area => {
-                                        area.addEventListener("mouseenter", (event) => {
-                                            const coords = event.target.coords.split(",").map(Number);
-                                            hoverEffect.style.left = coords[0] + "px";
-                                            hoverEffect.style.top = coords[1] + "px";
-                                            hoverEffect.style.width = (coords[2] - coords[0]) + "px";
-                                            hoverEffect.style.height = (coords[3] - coords[1]) + "px";
-                                            hoverEffect.style.display = "block";
-                                            hoverEffect.style.transform = "scale(1.0)";
-                                
-                                            let text = event.target.getAttribute("data-tooltip");
-                                            if (text) {
-                                                tooltip.innerHTML = text;
-                                                tooltip.style.display = "block";
-                                            }
-                                        });
-
-                                        area.addEventListener("mousemove", (event) => {
-                                            if (tooltip.style.display !== 'block') return;
-                                
-                                            const containerRect = imageContainer.getBoundingClientRect();
-                                            
-                                            const mouseX = event.clientX - containerRect.left;
-                                            const mouseY = event.clientY - containerRect.top;
-
-                                            const idealX = mouseX + 15;
-                                            const idealY = mouseY + 15;
-
-                                            const tooltipWidth = tooltip.offsetWidth;
-                                            const tooltipHeight = tooltip.offsetHeight;
-
-                                            const maxX = containerRect.width - tooltipWidth;
-                                            const maxY = containerRect.height - tooltipHeight;
-
-                                            const finalX = Math.max(0, Math.min(idealX, maxX));
-                                            const finalY = Math.max(0, Math.min(idealY, maxY));
-                                            
-                                            tooltip.style.left = finalX + "px";
-                                            tooltip.style.top = finalY + "px";
-                                        });
-                                
-                                        area.addEventListener("mouseleave", () => {
-                                            hoverEffect.style.display = "none";
-                                            hoverEffect.style.transform = "scale(1)";
-                                            tooltip.style.display = "none";
-                                        });
-                                    });
-                            </` + `script>`;
-                document.getElementById("htmlOutput").value = htmlCode;
-            }
-
-            function resetZones() {
-                areas = [];
-                selectedAreaIndex = -1;
-                updateAreasTable();
-                updateHTML();
-                redrawCanvas();
-            }
-
-            function updateConfigList() {
-                let savedConfigs = JSON.parse(localStorage.getItem("imageMapperConfigs")) || {};
-                let configsList = document.getElementById("configsList");
-                configsList.innerHTML = "";
-
-                let configNames = Object.keys(savedConfigs).sort();
-                configNames.forEach(name => {
-                    let listItem = document.createElement("li");
-                    listItem.className = "config-item";
-
-                    let link = document.createElement("a");
-                    link.href = "#";
-                    link.textContent = name;
-                    link.onclick = () => {
-                        loadZonesByName(name);
-                    };
-
-                    let dropdown = document.createElement("div");
-                    dropdown.className = "dropdown";
-                    dropdown.innerHTML = `
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
-                            <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
-                        </svg>
-                        <div class="dropdown-content">
-                            <a href="#" onclick="deleteConfig('${name}')">Supprimer</a>
-                        </div>
-                    `;
-
-                    listItem.appendChild(link);
-                    listItem.appendChild(dropdown);
-                    configsList.appendChild(listItem);
-                });
-            }
-
-            function deleteConfig(name) {
-                if (confirm(`Voulez-vous vraiment supprimer la configuration "${name}" ?`)) {
-                    let savedConfigs = JSON.parse(localStorage.getItem("imageMapperConfigs")) || {};
-                    delete savedConfigs[name];
-                    localStorage.setItem("imageMapperConfigs", JSON.stringify(savedConfigs));
-                    updateConfigList();
-                    alert(`Configuration "${name}" supprimée.`);
-                }
-            }
-
-            function loadZonesByName(configName) {
-                let savedConfigs = JSON.parse(localStorage.getItem("imageMapperConfigs")) || {};
-                if (savedConfigs[configName]) {
-                    areas = savedConfigs[configName];
-                    updateAreasTable();
-                    updateHTML();
-                    redrawCanvas();
-                    alert("Configuration " + configName + " chargée !");
-                } else {
-                    alert("Configuration introuvable.");
-                }
-            }
-
-            function saveZones() {
-                let configName = prompt("Entrez un nom pour cette configuration :");
-                if (configName) {
-                    let savedConfigs = JSON.parse(localStorage.getItem("imageMapperConfigs")) || {};
-                    savedConfigs[configName] = areas;
-                    localStorage.setItem("imageMapperConfigs", JSON.stringify(savedConfigs));
-                    alert("Configuration sauvegardée sous le nom : " + configName);
-                    updateConfigList();
-                }
-            }
-
-            function loadZones() {
-                let savedConfigs = JSON.parse(localStorage.getItem("imageMapperConfigs")) || {};
-                let configName = prompt("Entrez le nom de la configuration à charger :");
-                if (configName && savedConfigs[configName]) {
-                    areas = savedConfigs[configName];
-                    updateAreasTable();
-                    updateHTML();
-                    redrawCanvas();
-                    alert("Configuration " + configName + " chargée !");
-                    updateConfigList();
-                } else {
-                    alert("Configuration introuvable.");
-                }
-            }
-
-            updateConfigList();
-
-            function toggleSnap() {
-                snapEnabled = document.getElementById("snapToggle").checked;
-            }
-
-            canvas.addEventListener("mousedown", event => {
-                let mouseX = event.offsetX, mouseY = event.offsetY;
-                let areaIndex = getAreaAt(mouseX, mouseY);
-                if (areaIndex !== -1) {
-                    selectedAreaIndex = areaIndex;
-                    let area = areas[areaIndex];
-                    let ax = area.x * scaleFactor, ay = area.y * scaleFactor,
-                        aw = area.width * scaleFactor, ah = area.height * scaleFactor;
-                    let handle = detectHandle(mouseX, mouseY, ax, ay, aw, ah);
-                    if (handle) {
-                        isResizingArea = true;
-                        resizeCorner = handle;
-                    } else {
-                        isDraggingArea = true;
-                        dragOffset.x = mouseX - ax;
-                        dragOffset.y = mouseY - ay;
-                    }
-                    showEditor(area);
-                    redrawCanvas();
-                    return;
-                }
+    
+            updateAreasTable();
+            updateHTML();
+            redrawCanvas();
+        }
+    
+        function editArea(index) {
+            selectedAreaIndex = index;
+            showEditor(areas[index]);
+            redrawCanvas();
+        }
+    
+        function showEditor(area) {
+            document.getElementById("zoneEditor").style.display = "block";
+            document.getElementById("editTitle").value = area.title;
+            document.getElementById("editLink").value = area.link;
+            document.getElementById("editTarget").value = area.target;
+            document.getElementById("editColor").value = area.color || "#ff0000";
+        }
+    
+        function cancelEdit() {
+            selectedAreaIndex = -1;
+            document.getElementById("zoneEditor").style.display = "none";
+            redrawCanvas();
+        }
+    
+        function updateZone() {
+            if (selectedAreaIndex === -1) return;
+            areas[selectedAreaIndex].title = document.getElementById("editTitle").value;
+            areas[selectedAreaIndex].link = document.getElementById("editLink").value;
+            areas[selectedAreaIndex].target = document.getElementById("editTarget").value;
+            areas[selectedAreaIndex].color = document.getElementById("editColor").value;
+            
+            updateAreasTable();
+            updateHTML();
+            
+            // On ferme la fenêtre d'édition et on désélectionne la zone
+            cancelEdit(); 
+        }
+    
+        function deleteArea(index) {
+            if (!confirm(`Voulez-vous vraiment supprimer la zone #${index + 1} ?`)) return;
+            areas.splice(index, 1);
+            if (selectedAreaIndex === index) {
                 selectedAreaIndex = -1;
                 cancelEdit();
-                drawing = true;
-                startX = mouseX;
-                startY = mouseY;
-                currentRect = { x: startX, y: startY, w: 0, h: 0 };
+            } else if (selectedAreaIndex > index) {
+                selectedAreaIndex--;
+            }
+            updateAreasTable();
+            updateHTML();
+            redrawCanvas();
+        }
+    
+        // REMPLACER toute la fonction updateHTML par celle-ci
+        function updateHTML() {
+            let imageSrc = document.getElementById("imageURL").value;
+            let htmlCode = `<style>
+            #image-container { position: relative; display: inline-block; max-width: 100%; }
+            #image-container img { width: 100%; height: auto; display: block; }
+            #hover-effect { position: absolute; background: rgba(59, 130, 246, 0.4); border: 1px solid rgba(255, 255, 255, 0.7); transition: all 0.2s ease-in-out; pointer-events: none; display: none; }
+            #tooltip { position: absolute; background: rgba(0, 0, 0, 0.85); color: white; padding: 8px 12px; border-radius: 5px; font-size: 14px; white-space: nowrap; display: none; z-index: 1000; pointer-events: none; }
+        </style>
+        <div id="image-container">
+            <img src="${imageSrc}" usemap="#image-map">
+            <div id="hover-effect"></div>
+            <div id="tooltip"></div>
+        </div>
+        <map name="image-map">`;
+
+            areas.forEach(area => {
+                let coords = '';
+                switch(area.shape) {
+                    case 'circle':
+                        coords = `${Math.round(area.cx)},${Math.round(area.cy)},${Math.round(area.radius)}`;
+                        break;
+                    case 'poly':
+                        coords = area.points.map(p => `${Math.round(p.x)},${Math.round(p.y)}`).join(',');
+                        break;
+                    case 'rect':
+                    default:
+                        let x1 = Math.round(area.x), y1 = Math.round(area.y);
+                        let x2 = Math.round(area.x + area.width), y2 = Math.round(area.y + area.height);
+                        coords = `${x1},${y1},${x2},${y2}`;
+                        break;
+                }
+                
+                // CORRECTION : Remplacer les guillemets par l'entité HTML &quot;
+                let formattedTitle = (area.title || "").replace(/"/g, "&quot;").replace(/\n/g, "<br>");
+                htmlCode += `\n    <area shape="${area.shape}" coords="${coords}" href="${area.link || '#'}" target="${area.target}" data-tooltip="${formattedTitle}" class="hover-area">`;
             });
 
-            canvas.addEventListener("mousemove", event => {
-                let mouseX = event.offsetX, mouseY = event.offsetY;
+            // CORRECTION : Échapper correctement les backticks ` dans le script généré
+            htmlCode += `
+        </map>
+        <script src="https://cdn.jsdelivr.net/npm/image-map-resizer@1.0.10/js/imageMapResizer.min.js"><\/script>
+        <script>
+            imageMapResize();
+            const imageContainer = document.getElementById("image-container");
+            const hoverEffect = document.getElementById("hover-effect");
+            const tooltip = document.getElementById("tooltip");
+            const hoverAreas = document.querySelectorAll(".hover-area");
+            
+            hoverAreas.forEach(area => {
+                area.addEventListener("mouseenter", (event) => {
+                    const shape = event.target.shape;
+                    const coords = event.target.coords.split(",").map(Number);
+                    
+                    hoverEffect.style.borderRadius = '0';
+                    hoverEffect.style.clipPath = 'none';
+                    hoverEffect.style.display = "block";
 
-                if (drawing) {
-                    currentRect.w = mouseX - startX;
-                    currentRect.h = mouseY - startY;
-                    if (snapEnabled) {
-                        currentRect.w = Math.round(currentRect.w / snapGrid) * snapGrid;
-                        currentRect.h = Math.round(currentRect.h / snapGrid) * snapGrid;
+                    if (shape === 'rect') {
+                        hoverEffect.style.left = coords[0] + "px";
+                        hoverEffect.style.top = coords[1] + "px";
+                        hoverEffect.style.width = (coords[2] - coords[0]) + "px";
+                        hoverEffect.style.height = (coords[3] - coords[1]) + "px";
+                    } 
+                    else if (shape === 'circle') {
+                        const [cx, cy, radius] = coords;
+                        hoverEffect.style.left = (cx - radius) + 'px';
+                        hoverEffect.style.top = (cy - radius) + 'px';
+                        hoverEffect.style.width = (radius * 2) + 'px';
+                        hoverEffect.style.height = (radius * 2) + 'px';
+                        hoverEffect.style.borderRadius = '50%';
+                    } 
+                    else if (shape === 'poly') {
+                        let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+                        for (let i = 0; i < coords.length; i += 2) {
+                            minX = Math.min(minX, coords[i]);
+                            maxX = Math.max(maxX, coords[i]);
+                            minY = Math.min(minY, coords[i + 1]);
+                            maxY = Math.max(maxY, coords[i + 1]);
+                        }
+                        hoverEffect.style.left = minX + 'px';
+                        hoverEffect.style.top = minY + 'px';
+                        hoverEffect.style.width = (maxX - minX) + 'px';
+                        hoverEffect.style.height = (maxY - minY) + 'px';
+                        const clipPathPoints = [];
+                        for (let i = 0; i < coords.length; i += 2) {
+                            clipPathPoints.push(\`\${coords[i] - minX}px \${coords[i + 1] - minY}px\`);
+                        }
+                        hoverEffect.style.clipPath = \`polygon(\${clipPathPoints.join(', ')})\`;
                     }
-                } else if (isDraggingArea && selectedAreaIndex !== -1) {
-                    let newX = (mouseX - dragOffset.x) / scaleFactor;
-                    let newY = (mouseY - dragOffset.y) / scaleFactor;
-                    if (snapEnabled) {
-                        newX = Math.round(newX / (snapGrid / scaleFactor)) * (snapGrid / scaleFactor);
-                        newY = Math.round(newY / (snapGrid / scaleFactor)) * (snapGrid / scaleFactor);
+
+                    let text = event.target.getAttribute("data-tooltip");
+                    if (text) {
+                        tooltip.innerHTML = text;
+                        tooltip.style.display = "block";
                     }
-                    areas[selectedAreaIndex].x = newX;
-                    areas[selectedAreaIndex].y = newY;
-                    updateAreasTable();
-                    updateHTML();
-                } else if (isResizingArea && selectedAreaIndex !== -1) {
-                    let area = areas[selectedAreaIndex];
-                    let ax = area.x * scaleFactor,
-                        ay = area.y * scaleFactor,
-                        aw = area.width * scaleFactor,
-                        ah = area.height * scaleFactor;
-                    switch (resizeCorner) {
-                        case "tl": {
-                            let newX = mouseX;
-                            let newY = mouseY;
-                            let newW = (ax + aw) - newX;
-                            let newH = (ay + ah) - newY;
-                            if (snapEnabled) {
-                                newX = Math.round(newX / snapGrid) * snapGrid;
-                                newY = Math.round(newY / snapGrid) * snapGrid;
-                                newW = Math.round(newW / snapGrid) * snapGrid;
-                                newH = Math.round(newH / snapGrid) * snapGrid;
-                            }
-                            areas[selectedAreaIndex].x = newX / scaleFactor;
-                            areas[selectedAreaIndex].y = newY / scaleFactor;
-                            areas[selectedAreaIndex].width = newW / scaleFactor;
-                            areas[selectedAreaIndex].height = newH / scaleFactor;
-                            break;
-                        }
-                        case "tr": {
-                            let newY = mouseY;
-                            let newW = mouseX - ax;
-                            let newH = (ay + ah) - newY;
-                            if (snapEnabled) {
-                                newY = Math.round(newY / snapGrid) * snapGrid;
-                                newW = Math.round(newW / snapGrid) * snapGrid;
-                                newH = Math.round(newH / snapGrid) * snapGrid;
-                            }
-                            areas[selectedAreaIndex].y = newY / scaleFactor;
-                            areas[selectedAreaIndex].width = newW / scaleFactor;
-                            areas[selectedAreaIndex].height = newH / scaleFactor;
-                            break;
-                        }
-                        case "bl": {
-                            let newX = mouseX;
-                            let newW = (ax + aw) - newX;
-                            let newH = mouseY - ay;
-                            if (snapEnabled) {
-                                newX = Math.round(newX / snapGrid) * snapGrid;
-                                newW = Math.round(newW / snapGrid) * snapGrid;
-                                newH = Math.round(newH / snapGrid) * snapGrid;
-                            }
-                            areas[selectedAreaIndex].x = newX / scaleFactor;
-                            areas[selectedAreaIndex].width = newW / scaleFactor;
-                            areas[selectedAreaIndex].height = newH / scaleFactor;
-                            break;
-                        }
-                        case "br": {
-                            let newW = mouseX - ax;
-                            let newH = mouseY - ay;
-                            if (snapEnabled) {
-                                newW = Math.round(newW / snapGrid) * snapGrid;
-                                newH = Math.round(newH / snapGrid) * snapGrid;
-                            }
-                            areas[selectedAreaIndex].width = newW / scaleFactor;
-                            areas[selectedAreaIndex].height = newH / scaleFactor;
-                            break;
-                        }
-                        case "tc": {
-                            let newY = mouseY;
-                            let newH = (ay + ah) - newY;
-                            if (snapEnabled) {
-                                newY = Math.round(newY / snapGrid) * snapGrid;
-                                newH = Math.round(newH / snapGrid) * snapGrid;
-                            }
-                            areas[selectedAreaIndex].y = newY / scaleFactor;
-                            areas[selectedAreaIndex].height = newH / scaleFactor;
-                            break;
-                        }
-                        case "bc": {
-                            let newH = mouseY - ay;
-                            if (snapEnabled) {
-                                newH = Math.round(newH / snapGrid) * snapGrid;
-                            }
-                            areas[selectedAreaIndex].height = newH / scaleFactor;
-                            break;
-                        }
-                        case "ml": {
-                            let newX = mouseX;
-                            let newW = (ax + aw) - newX;
-                            if (snapEnabled) {
-                                newX = Math.round(newX / snapGrid) * snapGrid;
-                                newW = Math.round(newW / snapGrid) * snapGrid;
-                            }
-                            areas[selectedAreaIndex].x = newX / scaleFactor;
-                            areas[selectedAreaIndex].width = newW / scaleFactor;
-                            break;
-                        }
-                        case "mr": {
-                            let newW = mouseX - ax;
-                            if (snapEnabled) {
-                                newW = Math.round(newW / snapGrid) * snapGrid;
-                            }
-                            areas[selectedAreaIndex].width = newW / scaleFactor;
-                            break;
-                        }
-                    }
-                    updateAreasTable();
-                    updateHTML();
-                } else {
-                    hoveredAreaIndex = getAreaAt(mouseX, mouseY);
-                }
+                });
+                area.addEventListener("mousemove", (event) => {
+                    if (tooltip.style.display !== 'block') return;
+                    const containerRect = imageContainer.getBoundingClientRect();
+                    const mouseX = event.clientX - containerRect.left;
+                    const mouseY = event.clientY - containerRect.top;
+                    const tooltipWidth = tooltip.offsetWidth;
+                    const tooltipHeight = tooltip.offsetHeight;
+                    const maxX = containerRect.width - tooltipWidth;
+                    const maxY = containerRect.height - tooltipHeight;
+                    tooltip.style.left = Math.max(0, Math.min(mouseX + 15, maxX)) + "px";
+                    tooltip.style.top = Math.max(0, Math.min(mouseY + 15, maxY)) + "px";
+                });
+                area.addEventListener("mouseleave", () => {
+                    hoverEffect.style.display = "none";
+                    tooltip.style.display = "none";
+                });
+            });
+        <\/script>`;
+            document.getElementById("htmlOutput").value = htmlCode;
+        }
+    
+        function resetZones() {
+            areas = [];
+            selectedAreaIndex = -1;
+            cancelEdit();
+            updateAreasTable();
+            updateHTML();
+            redrawCanvas();
+        }
+    
+        // --- Fonctions de sauvegarde/chargement des configurations ---
+        function updateConfigList() {
+            let savedConfigs = JSON.parse(localStorage.getItem("imageMapperConfigs")) || {};
+            let configsList = document.getElementById("configsList");
+            configsList.innerHTML = "";
+    
+            let configNames = Object.keys(savedConfigs).sort();
+            configNames.forEach(name => {
+                let listItem = document.createElement("li");
+                listItem.className = "config-item";
+    
+                let link = document.createElement("a");
+                link.href = "#";
+                link.textContent = name;
+                link.onclick = (e) => {
+                    e.preventDefault();
+                    loadZonesByName(name);
+                };
+    
+                let dropdown = document.createElement("div");
+                dropdown.className = "dropdown";
+                dropdown.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                        <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                    </svg>
+                    <div class="dropdown-content">
+                        <a href="#" onclick="event.preventDefault(); deleteConfig('${name}')">Supprimer</a>
+                    </div>
+                `;
+    
+                listItem.appendChild(link);
+                listItem.appendChild(dropdown);
+                configsList.appendChild(listItem);
+            });
+        }
+    
+        function deleteConfig(name) {
+            if (confirm(`Voulez-vous vraiment supprimer la configuration "${name}" ?`)) {
+                let savedConfigs = JSON.parse(localStorage.getItem("imageMapperConfigs")) || {};
+                delete savedConfigs[name];
+                localStorage.setItem("imageMapperConfigs", JSON.stringify(savedConfigs));
+                updateConfigList();
+                alert(`Configuration "${name}" supprimée.`);
+            }
+        }
+    
+        function loadZonesByName(configName) {
+            let savedConfigs = JSON.parse(localStorage.getItem("imageMapperConfigs")) || {};
+            if (savedConfigs[configName]) {
+                areas = savedConfigs[configName];
+                areas.forEach(area => updateAreaBoundingBox(area)); // Assurer la compatibilité
+                updateAreasTable();
+                updateHTML();
                 redrawCanvas();
-            });
-
-            canvas.addEventListener("mouseup", () => {
-                if (drawing) {
-                    drawing = false;
-                    let rect = {
-                        x: currentRect.x / scaleFactor,
-                        y: currentRect.y / scaleFactor,
-                        width: currentRect.w / scaleFactor,
-                        height: currentRect.h / scaleFactor
-                    };
-                    if (rect.width < 0) { rect.x += rect.width; rect.width = Math.abs(rect.width); }
-                    if (rect.height < 0) { rect.y += rect.height; rect.height = Math.abs(rect.height); }
-                    if (rect.width > 10 && rect.height > 10) {
-                        areas.push({ ...rect, title: "", link: "", target: "_top", color: "#ff0000" });
-                        updateAreasTable();
-                        updateHTML();
-                    }
-                    currentRect = null;
-                }
-                isDraggingArea = false;
+                alert("Configuration " + configName + " chargée !");
+            } else {
+                alert("Configuration introuvable.");
+            }
+        }
+    
+        function saveZones() {
+            let configName = prompt("Entrez un nom pour cette configuration :");
+            if (configName) {
+                let savedConfigs = JSON.parse(localStorage.getItem("imageMapperConfigs")) || {};
+                savedConfigs[configName] = areas;
+                localStorage.setItem("imageMapperConfigs", JSON.stringify(savedConfigs));
+                alert("Configuration sauvegardée sous le nom : " + configName);
+                updateConfigList();
+            }
+        }
+    
+        function loadZones() {
+            let configName = prompt("Entrez le nom de la configuration à charger :");
+            if (configName) {
+                loadZonesByName(configName);
+            }
+        }
+    
+        updateConfigList();
+    
+        function toggleSnap() {
+            snapEnabled = document.getElementById("snapToggle").checked;
+        }
+    
+        // --- Gestionnaires d'événements du Canvas ---
+        canvas.addEventListener("mousedown", event => {
+            event.preventDefault();
+            if (isDrawingPoly) {
+                currentPolyPoints.push({ x: event.offsetX, y: event.offsetY });
+                redrawCanvas();
+                return;
+            }
+    
+            const mouseX = event.offsetX;
+            const mouseY = event.offsetY;
+            const areaIndex = getAreaAt(mouseX, mouseY);
+    
+            // NOUVELLE VERSION
+            if (areaIndex !== -1) { // Clic sur une zone existante
+                const area = areas[areaIndex];
+                selectedAreaIndex = areaIndex;
+                isDraggingArea = true; // Par défaut on drague la forme
                 isResizingArea = false;
-                resizeCorner = null;
+                
+                dragOffset.x = mouseX - area.x * scaleFactor;
+                dragOffset.y = mouseY - area.y * scaleFactor;
+
+                // Cherche si on a cliqué sur une poignée
+                const handles = getHandlesForArea(area);
+                for (const handle of handles) {     
+                    const hx = handle.x * scaleFactor;
+                    const hy = handle.y * scaleFactor;
+                    const distance = Math.sqrt(Math.pow(mouseX - hx, 2) + Math.pow(mouseY - hy, 2));
+
+                    if (distance <= handleSize + handleTolerance) {
+                        isResizingArea = true;
+                        isDraggingArea = false; // On ne drague pas si on redimensionne
+                        resizeCorner = handle; // On stocke l'objet poignée entier
+                        break; 
+                    }
+                }
+                
+                showEditor(area);
                 redrawCanvas();
-            });
-        </script>
+                return;
+            }
+    
+            selectedAreaIndex = -1;
+            cancelEdit();
+            drawing = true;
+            startX = mouseX;
+            startY = mouseY;
+            currentRect = { x: startX, y: startY, w: 0, h: 0 };
+        });
+
+        canvas.addEventListener("mousemove", event => {
+            const mouseX = event.offsetX;
+            const mouseY = event.offsetY;
+
+            if (isDraggingArea && selectedAreaIndex !== -1) {
+                canvas.classList.add('dragging');
+                // Calcule la nouvelle position du coin supérieur gauche de la forme
+                const newX = mouseX - dragOffset.x;
+                const newY = mouseY - dragOffset.y;
+                
+                const area = areas[selectedAreaIndex];
+                // Calcule le delta de mouvement par rapport à l'ancienne position
+                const dx = newX - (area.x * scaleFactor);
+                const dy = newY - (area.y * scaleFactor);
+                
+                moveArea(area, dx, dy);
+                
+            } else if (isResizingArea && selectedAreaIndex !== -1) {
+                const area = areas[selectedAreaIndex];
+                
+                switch (resizeCorner.type) {
+                    case 'circle-resize':
+                        const newRadius = Math.sqrt(Math.pow(mouseX / scaleFactor - area.cx, 2) + Math.pow(mouseY / scaleFactor - area.cy, 2));
+                        area.radius = newRadius;
+                        break;
+                        
+                    case 'poly-move-point':
+                        const pointIndex = resizeCorner.index;
+                        area.points[pointIndex].x = mouseX / scaleFactor;
+                        area.points[pointIndex].y = mouseY / scaleFactor;
+                        break;
+
+                    case 'rect-resize':
+                            case 'rect-resize':
+                                const corner = resizeCorner.corner;
+                                let ax = area.x * scaleFactor, ay = area.y * scaleFactor;
+                                let aw = area.width * scaleFactor, ah = area.height * scaleFactor;
+                                
+                                // Logique de redimensionnement pour chaque coin/côté
+                                if (corner.includes('t')) {
+                                    let newHeight = ah - (mouseY - ay);
+                                    area.y = mouseY / scaleFactor;
+                                    area.height = newHeight / scaleFactor;
+                                }
+                                if (corner.includes('b')) {
+                                    area.height = (mouseY - ay) / scaleFactor;
+                                }
+                                if (corner.includes('l')) {
+                                    let newWidth = aw - (mouseX - ax);
+                                    area.x = mouseX / scaleFactor;
+                                    area.width = newWidth / scaleFactor;
+                                }
+                                if (corner.includes('r')) {
+                                    area.width = (mouseX - ax) / scaleFactor;
+                                }
+                                break;
+                        break;
+                }
+
+                updateAreaBoundingBox(area);
+                updateAreasTable();
+                updateHTML();
+
+            } else if (drawing) {
+                currentRect.w = mouseX - startX;
+                currentRect.h = mouseY - startY;
+            } else {
+                hoveredAreaIndex = getAreaAt(mouseX, mouseY);
+                canvas.classList.toggle('draggable', hoveredAreaIndex !== -1);
+            }
+            
+            redrawCanvas();
+        });
+    
+        canvas.addEventListener("mouseup", () => {
+            if (isDrawingPoly) return;
+    
+            if (drawing) {
+                drawing = false;
+                let newArea = null;
+    
+                switch (currentShape) {
+                    case 'circle':
+                        const radius = Math.sqrt(Math.pow(currentRect.w, 2) + Math.pow(currentRect.h, 2)) / scaleFactor;
+                        if (radius > 5) {
+                            newArea = { shape: 'circle', cx: startX / scaleFactor, cy: startY / scaleFactor, radius, title: "", link: "", target: "_top", color: "#ff0000" };
+                        }
+                        break;
+                    case 'rect':
+                    default:
+                        let rect = { x: currentRect.x / scaleFactor, y: currentRect.y / scaleFactor, width: currentRect.w / scaleFactor, height: currentRect.h / scaleFactor };
+                        if (rect.width < 0) { rect.x += rect.width; rect.width = Math.abs(rect.width); }
+                        if (rect.height < 0) { rect.y += rect.height; rect.height = Math.abs(rect.height); }
+                        if (rect.width > 5 && rect.height > 5) {
+                            newArea = { ...rect, shape: 'rect', title: "", link: "", target: "_top", color: "#ff0000" };
+                        }
+                        break;
+                }
+    
+                if (newArea) {
+                    updateAreaBoundingBox(newArea);
+                    areas.push(newArea);
+                    selectedAreaIndex = areas.length - 1;
+                    showEditor(newArea);
+                    updateAreasTable();
+                    updateHTML();
+                }
+                currentRect = null;
+            }
+    
+            isDraggingArea = false;
+            isResizingArea = false;
+            canvas.classList.remove('dragging');
+            redrawCanvas();
+        });
+    
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' && isDrawingPoly && currentPolyPoints.length > 2) {
+                event.preventDefault();
+                isDrawingPoly = false;
+                const newPoly = { shape: 'poly', points: currentPolyPoints.map(p => ({ x: p.x / scaleFactor, y: p.y / scaleFactor })), title: "", link: "", target: "_top", color: "#ff0000" };
+    
+                updateAreaBoundingBox(newPoly);
+                areas.push(newPoly);
+                selectedAreaIndex = areas.length - 1;
+                showEditor(newPoly);
+    
+                currentPolyPoints = [];
+                updateAreasTable();
+                updateHTML();
+                redrawCanvas();
+            }
+    
+            if (event.key === 'Escape') {
+                if (modal.classList.contains('visible')) {
+                    closeGuide();
+                } else if (isDrawingPoly) {
+                    isDrawingPoly = false;
+                    currentPolyPoints = [];
+                    redrawCanvas();
+                } else if(selectedAreaIndex !== -1) {
+                    cancelEdit();
+                }
+            }
+        });
+    </script>
 </body>
 </html>
