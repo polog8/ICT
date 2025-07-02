@@ -36,6 +36,7 @@ This tool is composed of two main modules: a **Google Drive Link Converter** and
 1.  Paste the **direct image URL** (obtained from the converter or any other source) into the "Image URL to map" input field.
 2.  Click `Load Image`. The image will appear on the canvas below, ready for mapping.
 
+
 #### Step 2: Creating and Editing Zones
 
 -   **To Create a Zone**: Click and drag your mouse over the desired area on the image. A rectangle will appear.
