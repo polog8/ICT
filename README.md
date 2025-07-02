@@ -23,8 +23,6 @@ This tool is composed of two main modules: a **Google Drive Link Converter** and
 
 ### Module 1: Google Drive Link Converter
 
-This utility solves a common issue when trying to embed images hosted on Google Drive.
-
 1.  **Get Share Link**: In your Google Drive, right-click your image and get the shareable link. Ensure permissions are set to "Anyone with the link".
 2.  **Paste & Convert**: Paste the link (e.g., `https://drive.google.com/file/d/FILE_ID/view?usp=sharing`) into the converter's input field.
 3.  **Click `Convert`**: The tool will generate two outputs:
@@ -32,8 +30,6 @@ This utility solves a common issue when trying to embed images hosted on Google 
     -   A basic **HTML embed code** (`<img>` tag).
 
 ### Module 2: Interactive Image Mapper
-
-This is the core of the ICT.
 
 #### Step 1: Loading an Image
 
@@ -53,8 +49,6 @@ This is the core of the ICT.
 -   **To Move/Resize a Zone**: Click on a zone to select it. Drag from the center to move it, or drag one of the handles on its edges and corners to resize it.
 
 #### Step 3: Managing Configurations (Save & Load)
-
-This feature is crucial for complex diagrams and allows you to save your work.
 
 -   **To Save**:
     1.  Click the `Save` button.
