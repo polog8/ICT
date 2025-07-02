@@ -93,7 +93,6 @@ Cet outil se compose de deux modules principaux : un **Convertisseur de lien Goo
 ## Limitations Connues
 
 -   **Accessibilité de l'image** : L'outil nécessite une URL directe vers un fichier image (.png, .jpg, etc.). Il ne fonctionnera pas avec des pages nécessitant une connexion.
--   **Redimensionnement** : Le redimensionnement via les 8 poignées (côtés + angles) n'est actuellement disponible que pour les rectangles. Les cercles et les polygones sont modifiables via leurs points de contrôle spécifiques.
 -   **Stockage Local** : Les configurations sauvegardées sont liées au navigateur et à l'ordinateur que vous utilisez.
 
 ---
@@ -199,7 +198,6 @@ This tool is composed of two main modules: a **Google Drive Link Converter** and
 ## Known Limitations
 
 -   **Image Accessibility**: The tool requires a direct URL to an image file (.png, .jpg, etc.). It will not work with pages that require a login.
--   **Resizing**: Resizing with 8 handles (sides + corners) is currently exclusive to rectangles. Circles and polygons are modified via their specific control points.
 -   **Local Storage**: Saved configurations are tied to the specific browser and machine you are using.
 
 ---
