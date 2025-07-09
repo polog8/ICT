@@ -2,23 +2,26 @@
 
 ### Un outil sur mesure pour créer des schémas interactifs
 
-**ICT** est une application web autonome, fonctionnant entièrement côté client, développée pour simplifier le processus de création de cartes d'images interactives et responsives. Elle a été conçue pour surmonter les défis des outils en ligne standards en offrant un flux de travail flexible et efficace, spécifiquement pour l'intégration de diagrammes complexes dans des plateformes de partage de connaissances comme Google Sites.
+**ICT** est une <font color="red">application web autonome, fonctionnant entièrement côté client,</font> développée pour simplifier le processus de création de cartes d'images interactives et responsives. Elle a été conçue pour surmonter les défis des outils en ligne standards en offrant un flux de travail flexible et efficace, spécifiquement pour l'intégration de diagrammes complexes dans des plateformes de partage de connaissances comme Google Sites.
 
-Cet outil se compose de deux modules principaux : un **Convertisseur de lien Google Drive** et un puissant **Mapper d'Images Interactif**.
+Cet outil se compose de deux modules principaux : un **Convertisseur de lien Google Drive** et un puissant **Mapper d'Images**.
 
 ---
 
 ## Fonctionnalités Clés
 
--   **Support multi-formes :** Dessinez des **rectangles**, **cercles** et **polygones** complexes pour épouser parfaitement les contours de vos images.
+-   **Support multi-formes :** Dessinez des **rectangles**, **cercles** et **polygones** pour épouser parfaitement les contours de vos images.
 -   **Édition avancée des formes :** Redimensionnez les cercles par leur rayon et ajustez les polygones en déplaçant leurs sommets individuellement.
 -   **Gestion des calques :** Contrôlez précisément l'ordre de superposition de vos zones interactives.
 -   **Intégration Google Drive :** Convertit les liens de partage Google Drive en URL d'images directes et intégrables.
--   **Canevas Interactif :** Chargez n'importe quelle image via une URL et dessinez, déplacez et modifiez des zones avec une grande précision.
+-   **Canevas Interactif :** Chargez n'importe quelle image via une URL (Google Drive) et dessinez, déplacez et modifiez des zones avec une grande précision.
 -   **Snap-to-Grid :** Une fonctionnalité optionnelle d'alignement sur une grille pour positionner parfaitement plusieurs zones.
 -   **Éditeur de propriétés :** Assignez facilement un titre (pour les infobulles), un lien hypertexte, une destination (`_blank`, `_top`...) et une couleur d'affichage à chaque zone.
--   **Stockage local et sécurisé :** Toutes vos configurations sont sauvegardées directement dans le `localStorage` de votre navigateur. **Aucune donnée n'est jamais envoyée sur un serveur externe**.
 -   **Génération de code automatique :** Obtenez instantanément le code HTML `<map>` et JavaScript complet, propre et responsive, prêt à être intégré dans n'importe quelle page web.
+-   **Stockage local et sécurisé :** Toutes vos configurations sont sauvegardées directement dans le `localStorage` de votre navigateur.
+
+>  [!IMPORTANT]
+> **Aucune donnée n'est jamais envoyée sur un serveur externe.** L'application fonctionne entièrement en local dans votre navigateur.
 
 ---
 
@@ -53,10 +56,13 @@ Cet outil se compose de deux modules principaux : un **Convertisseur de lien Goo
         -   **Polygone** : Faites glisser n'importe quel sommet (poignée) pour le repositionner.
 -   **Gérer l'ordre (Calques)** : Utilisez les flèches ▲ et ▼ dans la table "Liste des zones" pour changer l'ordre de superposition des formes.
 -   **Éditer les propriétés** :
-    -   **Titre (infobulle)** : Le texte qui apparaîtra au survol. *Astuce : pour un saut de ligne, tapez `<br>`.*
+    -   **Titre (infobulle)** : Le texte qui apparaîtra au survol.
     -   **URL du lien** : La destination du clic.
     -   **Cible** : Comment le lien s'ouvre (ex: `_blank` pour un nouvel onglet).
     -   **Couleur** : La couleur de la zone dans l'éditeur (pour l'organisation).
+> [!TIP]
+> Pour un saut de ligne dans une infobulle, tapez l'élément HTML `<br>` directement dans le champ "Titre".
+
 
 #### Étape 3: Gérer les Configurations (Sauvegarde & Chargement)
 
@@ -97,7 +103,7 @@ Cet outil se compose de deux modules principaux : un **Convertisseur de lien Goo
 
 ---
 
-*Cet outil a été développé par Paul GAUTIER lors d'un stage chez Airbus Helicopters (2025).*
+ *Cet outil a été développé par Paul GAUTIER lors d'un stage chez Airbus Helicopters (2025).*
 
 
 ---
@@ -125,6 +131,8 @@ This tool is composed of two main modules: a **Google Drive Link Converter** and
 -   **Secure, Local Storage**: All your mapping configurations are saved directly in your browser's `localStorage`. **No data is ever sent to an external server**.
 -   **Automatic Code Generation**: Instantly get the complete, clean, and responsive HTML `<map>` and JavaScript code, ready for any web page.
 
+>  [!IMPORTANT]
+> **No data is ever sent to an external server.** The application runs entirely locally in your browser.
 ---
 
 ## Usage Guide
@@ -162,6 +170,8 @@ This tool is composed of two main modules: a **Google Drive Link Converter** and
     -   **Link URL**: The click destination.
     -   **Target**: How the link opens (e.g., `_blank` for a new tab).
     -   **Color**: The zone's color in the editor (for organization).
+> [!TIP]
+> For a line break, type `<br>` in the "Title" property.
 
 #### Step 3: Managing Configurations (Save & Load)
 
