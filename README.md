@@ -2,7 +2,7 @@
 
 ### Un outil sur mesure pour créer des schémas interactifs
 
-**ICT** est une <font color="red">application web autonome, fonctionnant entièrement côté client,</font> développée pour simplifier le processus de création de cartes d'images interactives et responsives. Elle a été conçue pour surmonter les défis des outils en ligne standards en offrant un flux de travail flexible et efficace, spécifiquement pour l'intégration de diagrammes complexes dans des plateformes de partage de connaissances comme Google Sites.
+**ICT** est une application web autonome, fonctionnant entièrement côté client, développée pour simplifier le processus de création de cartes d'images interactives et responsives. Elle a été conçue pour surmonter les défis des outils en ligne standards en offrant un flux de travail flexible et efficace, spécifiquement pour l'intégration de diagrammes complexes dans des plateformes de partage de connaissances comme Google Sites.
 
 Cet outil se compose de deux modules principaux : un **Convertisseur de lien Google Drive** et un puissant **Mapper d'Images**.
 
@@ -18,10 +18,8 @@ Cet outil se compose de deux modules principaux : un **Convertisseur de lien Goo
 -   **Snap-to-Grid :** Une fonctionnalité optionnelle d'alignement sur une grille pour positionner parfaitement plusieurs zones.
 -   **Éditeur de propriétés :** Assignez facilement un titre (pour les infobulles), un lien hypertexte, une destination (`_blank`, `_top`...) et une couleur d'affichage à chaque zone.
 -   **Génération de code automatique :** Obtenez instantanément le code HTML `<map>` et JavaScript complet, propre et responsive, prêt à être intégré dans n'importe quelle page web.
--   **Stockage local et sécurisé :** Toutes vos configurations sont sauvegardées directement dans le `localStorage` de votre navigateur.
+-   **Stockage local et sécurisé :** Toutes vos configurations sont sauvegardées directement dans le `localStorage` de votre navigateur. **<font color="red">Aucune donnée n'est jamais envoyée sur un serveur externe.</font>** L'application fonctionne entièrement en local dans votre navigateur.
 
->  [!IMPORTANT]
-> **Aucune donnée n'est jamais envoyée sur un serveur externe.** L'application fonctionne entièrement en local dans votre navigateur.
 
 ---
 
@@ -56,12 +54,11 @@ Cet outil se compose de deux modules principaux : un **Convertisseur de lien Goo
         -   **Polygone** : Faites glisser n'importe quel sommet (poignée) pour le repositionner.
 -   **Gérer l'ordre (Calques)** : Utilisez les flèches ▲ et ▼ dans la table "Liste des zones" pour changer l'ordre de superposition des formes.
 -   **Éditer les propriétés** :
-    -   **Titre (infobulle)** : Le texte qui apparaîtra au survol.
+    -   **Titre (infobulle)** : Le texte qui apparaîtra au survol. _<font color="green">Astuce: Pour un saut de ligne dans une infobulle, tapez l'élément HTML `<br>` directement dans le champ "Titre".</font>_
     -   **URL du lien** : La destination du clic.
     -   **Cible** : Comment le lien s'ouvre (ex: `_blank` pour un nouvel onglet).
     -   **Couleur** : La couleur de la zone dans l'éditeur (pour l'organisation).
-> [!TIP]
-> Pour un saut de ligne dans une infobulle, tapez l'élément HTML `<br>` directement dans le champ "Titre".
+
 
 
 #### Étape 3: Gérer les Configurations (Sauvegarde & Chargement)
@@ -128,11 +125,8 @@ This tool is composed of two main modules: a **Google Drive Link Converter** and
 -   **Interactive Canvas**: Load any image via URL, then draw, move, and modify zones with high precision.
 -   **Snap-to-Grid**: An optional grid-snapping feature to perfectly align multiple zones.
 -   **Property Editor**: Easily assign a title (for tooltips), a hyperlink, a target (`_blank`, `_top`...), and a display color to each zone.
--   **Secure, Local Storage**: All your mapping configurations are saved directly in your browser's `localStorage`. **No data is ever sent to an external server**.
 -   **Automatic Code Generation**: Instantly get the complete, clean, and responsive HTML `<map>` and JavaScript code, ready for any web page.
-
->  [!IMPORTANT]
-> **No data is ever sent to an external server.** The application runs entirely locally in your browser.
+-   **Secure, Local Storage**: All your mapping configurations are saved directly in your browser's `localStorage`. **<font color="red">No data is ever sent to an external server.</font>** The application runs entirely locally in your browser.
 ---
 
 ## Usage Guide
@@ -166,12 +160,10 @@ This tool is composed of two main modules: a **Google Drive Link Converter** and
         -   **Polygon**: Drag any of its vertices (handles) to reposition them.
 -   **Manage Order (Layers)**: Use the ▲ and ▼ arrows in the "Zone List" table to change the stacking order of shapes.
 -   **Edit Properties**:
-    -   **Title (tooltip)**: The text that will appear on hover. *Tip: for a line break, type `<br>`.*
+    -   **Title (tooltip)**: The text that will appear on hover. *<font color="green">Tip: For a line break, type `<br>` in the "Title" property.</font>*
     -   **Link URL**: The click destination.
     -   **Target**: How the link opens (e.g., `_blank` for a new tab).
     -   **Color**: The zone's color in the editor (for organization).
-> [!TIP]
-> For a line break, type `<br>` in the "Title" property.
 
 #### Step 3: Managing Configurations (Save & Load)
 
