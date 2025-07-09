@@ -477,17 +477,88 @@
             align-items: center;
             gap: 15px;
         }
+
         .control-panel button.active {
             background-color: var(--primary);
             color: white;
             border-color: var(--primary);
         }
+
         .control-panel button.active svg {
             stroke: white;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-content {
+            background: white;
+            border-radius: var(--radius);
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.visible .modal-content {
+            transform: scale(1);
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .modal-title {
+            font-size: 22px;
+            font-weight: 600;
+        }
+        .modal-body {
+            margin-bottom: 25px;
+        }
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        #guideModal .modal-content {
+            max-width: 60%;
         }
     </style>
 </head>
 <body>
+    <div id="customModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle" class="modal-title"></h3>
+            </div>
+            <div id="modalBody" class="modal-body">
+                <p id="modalMessage"></p>
+                <input type="text" id="modalInput" style="display: none; margin-top: 15px; width: 100%;">
+            </div>
+            <div id="modalFooter" class="modal-footer">
+                <button id="modalCancelBtn" class="btn-outline">Annuler</button>
+                <button id="modalConfirmBtn">Confirmer</button>
+            </div>
+        </div>
+    </div>
+
     <header class="app-header">
         <div class="header-brand">
             <img src="https://raw.githubusercontent.com/polog8/ICT/main/Lien_Mapping_Icon.svg" style="height: 50px;" alt="Logo de l'application ICT">
@@ -666,6 +737,57 @@
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
+        function showModal(config) {
+            const modalElement = document.getElementById('customModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalMessage = document.getElementById('modalMessage');
+            const modalInput = document.getElementById('modalInput');
+            const modalConfirmBtn = document.getElementById('modalConfirmBtn');
+            const modalCancelBtn = document.getElementById('modalCancelBtn');
+
+            return new Promise((resolve) => {
+                modalTitle.textContent = config.title || 'Confirmation';
+                modalMessage.textContent = config.message || 'Êtes-vous sûr ?';
+
+                modalInput.style.display = config.input ? 'block' : 'none';
+                if (config.input) {
+                    modalInput.value = config.defaultValue || '';
+                    modalInput.placeholder = config.placeholder || '';
+                }
+
+                modalConfirmBtn.textContent = config.confirmText || 'Confirmer';
+                modalCancelBtn.textContent = config.cancelText || 'Annuler';
+
+                // Appliquer les classes de bouton pour la couleur
+                modalConfirmBtn.className = 'btn-danger'; // Par défaut pour la confirmation
+                if(config.confirmClass) modalConfirmBtn.className = config.confirmClass;
+
+                // Masquer le bouton Annuler si pas de texte
+                modalCancelBtn.style.display = config.cancelText === '' ? 'none' : 'inline-flex';
+
+                modalElement.classList.add('visible');
+
+                const confirmHandler = () => {
+                    resolve(config.input ? modalInput.value : true);
+                    cleanup();
+                };
+
+                const cancelHandler = () => {
+                    resolve(config.input ? null : false);
+                    cleanup();
+                };
+
+                const cleanup = () => {
+                    modalElement.classList.remove('visible');
+                    modalConfirmBtn.removeEventListener('click', confirmHandler);
+                    modalCancelBtn.removeEventListener('click', cancelHandler);
+                };
+
+                modalConfirmBtn.addEventListener('click', confirmHandler);
+                modalCancelBtn.addEventListener('click', cancelHandler);
+            });
+        }
+
         const guideBtn = document.getElementById('userGuideBtn');
         const modal = document.getElementById('guideModal');
         const guideContent = document.getElementById('guideContent');
@@ -1001,13 +1123,7 @@
                 }
             }
         }
-    
-        // REMPLACER les fonctions drawHandles et detectHandle par celles-ci
 
-        /**
-         * Dessine un tableau de poignées sur le canvas.
-         * @param {Array} handles - Un tableau d'objets poignée.
-         */
         function drawHandles(handles) {
             handles.forEach(handle => {
                 ctx.save();
@@ -1022,11 +1138,6 @@
             });
         }
 
-        /**
-         * Retourne un tableau d'objets représentant les poignées de modification pour une zone donnée.
-         * @param {Object} area - La zone pour laquelle obtenir les poignées.
-         * @returns {Array} - Un tableau d'objets poignée.
-         */
         function getHandlesForArea(area) {
             if (!area) return [];
             const handles = [];
@@ -1092,8 +1203,6 @@
             }
             return -1;
         }
-    
-        // REMPLACEZ votre fonction updateAreasTable actuelle par celle-ci
 
         function updateAreasTable() {
             let tbody = document.querySelector("#areasTable tbody");
@@ -1114,7 +1223,6 @@
                         break;
                 }
 
-                // Le bloc <td> pour l'ordre est maintenant inclus ici
                 row.innerHTML = `
                     <td>${index + 1}</td>
                     <td>
@@ -1193,20 +1301,28 @@
             cancelEdit(); 
         }
     
-        function deleteArea(index) {
-            areas.splice(index, 1);
-            if (selectedAreaIndex === index) {
-                selectedAreaIndex = -1;
-                cancelEdit();
-            } else if (selectedAreaIndex > index) {
-                selectedAreaIndex--;
+        async function deleteArea(index) {
+            const confirmed = await showModal({
+                title: 'Supprimer la Zone',
+                message: `Voulez-vous vraiment supprimer la zone #${index + 1} ?`,
+                confirmText: 'Supprimer',
+                confirmClass: 'btn-danger'
+            });
+
+            if (confirmed) {
+                areas.splice(index, 1);
+                if (selectedAreaIndex === index) {
+                    selectedAreaIndex = -1;
+                    cancelEdit();
+                } else if (selectedAreaIndex > index) {
+                    selectedAreaIndex--;
+                }
+                updateAreasTable();
+                updateHTML();
+                redrawCanvas();
             }
-            updateAreasTable();
-            updateHTML();
-            redrawCanvas();
         }
     
-        // REMPLACER toute la fonction updateHTML par celle-ci
         function updateHTML() {
             let imageSrc = document.getElementById("imageURL").value;
             let htmlCode = `<style>
@@ -1239,12 +1355,10 @@
                         break;
                 }
                 
-                // CORRECTION : Remplacer les guillemets par l'entité HTML &quot;
                 let formattedTitle = (area.title || "").replace(/"/g, "&quot;").replace(/\n/g, "<br>");
                 htmlCode += `\n    <area shape="${area.shape}" coords="${coords}" href="${area.link || '#'}" target="${area.target}" data-tooltip="${formattedTitle}" class="hover-area">`;
             });
 
-            // CORRECTION : Échapper correctement les backticks ` dans le script généré
             htmlCode += `
         </map>
         <script src="https://cdn.jsdelivr.net/npm/image-map-resizer@1.0.10/js/imageMapResizer.min.js"><\/script>
@@ -1369,43 +1483,78 @@
             });
         }
     
-        function deleteConfig(name) {
-            if (confirm(`Voulez-vous vraiment supprimer la configuration "${name}" ?`)) {
+        async function deleteConfig(name) {
+            const confirmed = await showModal({
+                title: 'Supprimer la Configuration',
+                message: `Voulez-vous vraiment supprimer la configuration "${name}" ? Cette action est irréversible.`,
+                confirmText: 'Supprimer',
+                confirmClass: 'btn-danger'
+            });
+
+            if (confirmed) {
                 let savedConfigs = JSON.parse(localStorage.getItem("imageMapperConfigs")) || {};
                 delete savedConfigs[name];
                 localStorage.setItem("imageMapperConfigs", JSON.stringify(savedConfigs));
                 updateConfigList();
-                alert(`Configuration "${name}" supprimée.`);
+                await showModal({ title: 'Succès', message: `Configuration "${name}" supprimée.`, confirmText: 'OK', cancelText: '' });
             }
         }
     
-        function loadZonesByName(configName) {
+        async function loadZonesByName(configName) {
             let savedConfigs = JSON.parse(localStorage.getItem("imageMapperConfigs")) || {};
             if (savedConfigs[configName]) {
                 areas = savedConfigs[configName];
-                areas.forEach(area => updateAreaBoundingBox(area)); // Assurer la compatibilité
+                areas.forEach(area => {
+                    if (!area.shape) area.shape = 'rect';
+                    updateAreaBoundingBox(area);
+                });
                 updateAreasTable();
                 updateHTML();
                 redrawCanvas();
-                alert("Configuration " + configName + " chargée !");
+                await showModal({ 
+                    title: 'Chargement Réussi', 
+                    message: `La configuration "${configName}" a été chargée avec succès.`, 
+                    confirmText: 'OK', 
+                    cancelText: ''
+                });
             } else {
-                alert("Configuration introuvable.");
+                await showModal({ 
+                    title: 'Erreur', 
+                    message: `Configuration introuvable : "${configName}"`, 
+                    confirmText: 'OK', 
+                    cancelText: '' 
+                });
             }
         }
     
-        function saveZones() {
-            let configName = prompt("Entrez un nom pour cette configuration :");
+        async function saveZones() {
+            const configName = await showModal({
+                title: 'Sauvegarder la Configuration',
+                message: 'Entrez un nom pour cette configuration :',
+                input: true,
+                placeholder: 'ex: schema_reg_cockpit_v1',
+                confirmText: 'Sauvegarder',
+                confirmClass: 'btn-secondary'
+            });
+
             if (configName) {
                 let savedConfigs = JSON.parse(localStorage.getItem("imageMapperConfigs")) || {};
                 savedConfigs[configName] = areas;
                 localStorage.setItem("imageMapperConfigs", JSON.stringify(savedConfigs));
-                alert("Configuration sauvegardée sous le nom : " + configName);
                 updateConfigList();
+                await showModal({ title: 'Succès', message: `Configuration sauvegardée sous le nom : ${configName}`, confirmText: 'OK', cancelText: '' });
             }
         }
     
-        function loadZones() {
-            let configName = prompt("Entrez le nom de la configuration à charger :");
+        async function loadZones() {
+            const configName = await showModal({
+                title: 'Charger une Configuration',
+                message: 'Entrez le nom de la configuration à charger :',
+                input: true,
+                placeholder: 'Nom exact de la configuration',
+                confirmText: 'Charger'
+            });
+
             if (configName) {
                 loadZonesByName(configName);
             }
@@ -1430,11 +1579,10 @@
             const mouseY = event.offsetY;
             const areaIndex = getAreaAt(mouseX, mouseY);
     
-            // NOUVELLE VERSION
             if (areaIndex !== -1) { // Clic sur une zone existante
                 const area = areas[areaIndex];
                 selectedAreaIndex = areaIndex;
-                isDraggingArea = true; // Par défaut on drague la forme
+                isDraggingArea = true; // Par défaut on drag la forme
                 isResizingArea = false;
                 
                 dragOffset.x = mouseX - area.x * scaleFactor;
