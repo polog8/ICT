@@ -1194,7 +1194,6 @@
         }
     
         function deleteArea(index) {
-            if (!confirm(`Voulez-vous vraiment supprimer la zone #${index + 1} ?`)) return;
             areas.splice(index, 1);
             if (selectedAreaIndex === index) {
                 selectedAreaIndex = -1;
