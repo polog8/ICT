@@ -951,15 +951,55 @@
         }
     
         function copyToClipboard(text, button) {
-            navigator.clipboard.writeText(text).then(() => {
-                if (button) {
+            // Crée un élément textarea temporaire
+            const textArea = document.createElement("textarea");
+            
+            // Assigne le texte à copier
+            textArea.value = text;
+            
+            // Rend l'élément invisible et le positionne hors de l'écran
+            textArea.style.position = "fixed";
+            textArea.style.top = 0;
+            textArea.style.left = 0;
+            textArea.style.width = "2em";
+            textArea.style.height = "2em";
+            textArea.style.padding = 0;
+            textArea.style.border = "none";
+            textArea.style.outline = "none";
+            textArea.style.boxShadow = "none";
+            textArea.style.background = "transparent";
+
+            // Ajoute le textarea au corps du document
+            document.body.appendChild(textArea);
+            
+            // Sélectionne le contenu du textarea
+            textArea.focus();
+            textArea.select();
+
+            try {
+                // Exécute la commande de copie
+                const successful = document.execCommand('copy');
+                if (successful && button) {
+                    // Change le texte du bouton pour confirmer la copie
                     const originalText = button.textContent;
-                    button.textContent = 'Copié !';
+                    const originalSVG = button.innerHTML; // Sauvegarde l'icône SVG
+                    button.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        Copié !`;
                     setTimeout(() => {
-                        button.textContent = originalText;
+                        button.innerHTML = originalSVG; // Restaure l'icône et le texte original
                     }, 2000);
                 }
-            }).catch(err => console.error("Erreur lors de la copie :", err));
+            } catch (err) {
+                console.error("Erreur lors de la copie avec execCommand :", err);
+                // En cas d'échec, on peut au moins sélectionner le texte pour une copie manuelle
+                alert("La copie a échoué. Veuillez copier le texte manuellement.");
+            }
+
+            // Supprime l'élément textarea temporaire
+            document.body.removeChild(textArea);
         }
     
         function copyHtmlCode() {
