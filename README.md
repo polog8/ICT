@@ -4,13 +4,13 @@
 
 **ICT** est une application web autonome, fonctionnant entièrement côté client, développée pour simplifier le processus de création de cartes d'images interactives et responsives. Elle a été conçue pour surmonter les défis des outils en ligne standards en offrant un flux de travail flexible et efficace, spécifiquement pour l'intégration de diagrammes complexes dans des plateformes de partage de connaissances comme Google Sites.
 
-Cet outil se compose de deux modules principaux : un **Convertisseur de lien Google Drive** et un puissant **Mapper d'Images**.
+Cet outil se compose de deux modules principaux : un **Convertisseur de lien Google Drive** et un **Mapper d'Images**.
 
 ---
 
 ## Fonctionnalités Clés
 
--   **Support multi-formes :** Dessinez des **rectangles**, **cercles** et **polygones** pour épouser parfaitement les contours de vos images.
+-   **Support multi-formes :** Dessinez des **rectangles**, **cercles** et **polygones** pour épouser les contours de vos images.
 -   **Édition avancée des formes :** Redimensionnez les cercles par leur rayon et ajustez les polygones en déplaçant leurs sommets individuellement.
 -   **Gestion des calques :** Contrôlez précisément l'ordre de superposition de vos zones interactives.
 -   **Intégration Google Drive :** Convertit les liens de partage Google Drive en URL d'images directes et intégrables.
@@ -112,13 +112,13 @@ Cet outil se compose de deux modules principaux : un **Convertisseur de lien Goo
 
 **ICT** is a standalone, client-side web application developed to streamline the process of creating interactive, responsive image maps. It was designed to solve the challenges of using standard online tools by offering a flexible and efficient workflow, specifically for integrating complex diagrams into knowledge-sharing platforms like Google Sites.
 
-This tool is composed of two main modules: a **Google Drive Link Converter** and a powerful **Interactive Image Mapper**.
+This tool is composed of two main modules: a **Google Drive Link Converter** and an **Image Mapper**.
 
 ---
 
 ## Key Features
 
--   **Multi-Shape Support**: Draw complex **rectangles**, **circles**, and **polygons** to perfectly match the contours of your images.
+-   **Multi-Shape Support**: Draw complex **rectangles**, **circles**, and **polygons** to match the contours of your images.
 -   **Advanced Shape Editing**: Resize circles by their radius and adjust polygons by dragging their individual vertices.
 -   **Layer Management**: Precisely control the stacking order of your interactive zones.
 -   **Google Drive Integration**: Converts Google Drive sharing links into direct, embeddable image URLs.
