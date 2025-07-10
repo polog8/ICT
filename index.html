@@ -1544,6 +1544,8 @@
             let savedConfigs = JSON.parse(localStorage.getItem("imageMapperConfigs")) || {};
             if (savedConfigs[configName]) {
                 areas = savedConfigs[configName];
+                // Fonctionnalité de prise en compte des formes établies sous les anciennes versions de l'outil
+                // Usage personnel mais non utile pour un nouvel utilisateur
                 areas.forEach(area => {
                     if (!area.shape) area.shape = 'rect';
                     updateAreaBoundingBox(area);
